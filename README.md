@@ -1,51 +1,94 @@
-# Django ToDo list
+# ToDo App Kubernetes Resources Deployment and Validation Guide
 
-This is a todo list web application with basic features of most web apps, i.e., accounts/login, API, and interactive UI. To do this task, you will need:
+This README provides instructions for deploying and validating Kubernetes resources for the ToDo app. These resources include a DaemonSet and a CronJob that interact with the ToDo app service in a different namespace.
 
-- CSS | [Skeleton](http://getskeleton.com/)
-- JS  | [jQuery](https://jquery.com/)
 
-## Explore
+## Deployment Instructions
 
-Try it out by installing the requirements (the following commands work only with Python 3.8 and higher, due to Django 4):
+Before deploying the DaemonSet and CronJob, ensure that the `mateapp` namespace exists. If it does not, you will need to create it.
 
+### Creating the Namespace
+
+To create the `mateapp` namespace if it doesn't already exist, follow these steps:
+
+1. Check if the namespace exists:
+
+```bash
+   kubectl get namespaces
+``
+Look for mateapp in the output. If it's listed, you're ready to proceed with the deployments.
+
+**Create the namespace if it's not listed:**
+
+```bash
+kubectl create namespace mateapp
 ```
-pip install -r requirements.txt
+
+### Deploying the DaemonSet
+
+The DaemonSet ensures a curl command is executed periodically to the ToDo app's service.
+
+2. **Deploy the DaemonSet:**
+
+```bash
+   kubectl apply -f daemonset.yml
 ```
 
-Create a database schema:
+### Deploying the CronJob
 
-```
-python manage.py migrate
-```
+The CronJob periodically calls the /api/health endpoint of the ToDo app to check its health.
 
-And then start the server (default is http://localhost:8000):
-
-```
-python manage.py runserver
+3. **Deploy the CronJob:**
+```bash
+kubectl apply -f cronjob.yml
 ```
 
-Now you can browse the [API](http://localhost:8000/api/) or start on the [landing page](http://localhost:8000/).
+## Validation Instructions
 
-## Task
+### Validating the DaemonSet
 
-Create a kubernetes manifest for a pod which will containa ToDo app container:
+To confirm the DaemonSet is running as expected:
 
-1. Fork this repository.
-1. Create a `daemonset.yml` file with a daemonset.
-1. DaemonSet requirements:
-    1. Container: busyboxplus:curl
-    1. Resource requests and limits should be present
-    1. Every 5 seconds it should execue a `curl` command to a clusterIp service of a todoapp.
-1. Createa a `cronjob.yml` file with a CrobJob manifest.
-1. CrobJob requirements:
-    1. Container: `busyboxplus:curl`
-    1. Resource requests and limits
-    1. Every 4 minutes it should call a `/api/health` endpoint of todoapp via a clusterIp service.
-    1. Should keep 10 successful runs in history
-    1. Should keep 5 failed runs in history
-    1. Should have a `concurrencyPolicy` set to `Allow`
-1. Both new manifests should belong to `mateapp` namespace
-1. `README.md` should be updated with the instructions on how to deploy `daemonset.yml` and `cronjob.yml` to the cluster.
-1. `README.md` should be updated with the instructions on how to validate the solution. (Logs for the `daemonset` and `cronjob` should be present)
-1. Create PR with your changes and attach it for validation on a platform.
+Check the DaemonSet's status:
+
+```bash
+kubectl -n mateapp get daemonset
+```
+
+### Validating the CronJob
+
+To ensure the CronJob is functioning correctly:
+
+Check the CronJob's status:
+
+```bash
+kubectl -n mateapp get cronjob
+```
+
+## Checking Logs
+
+To validate the actions performed by the DaemonSet and CronJob:
+
+1. Find the Pod Names:
+
+For the DaemonSet:
+
+```bash
+kubectl -n mateapp get pods -l app=todoapp-curl
+```
+
+For the CronJob:
+
+```bash
+kubectl -n mateapp get pods -l job-name=todoapp-health-check
+```
+
+2. View the Logs:
+
+```bash
+kubectl -n mateapp logs <pod-name>
+```
+
+Replace <pod-name> with the actual name of the pod you wish to inspect.
+
+By following these instructions, you can deploy and validate the DaemonSet and CronJob for the ToDo app in your Kubernetes environment.
