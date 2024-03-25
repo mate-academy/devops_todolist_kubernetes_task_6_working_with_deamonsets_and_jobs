@@ -30,6 +30,8 @@ spec:
         env:
         - name: PYTHONUNBUFFERED
           value: "1"
+        - name: SECRET_KEY
+          value: "1234"
         ports:
         - containerPort: 8080
         livenessProbe:
