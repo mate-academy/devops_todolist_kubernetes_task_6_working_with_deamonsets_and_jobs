@@ -53,6 +53,21 @@ Create a kubernetes manifest for a pod which will containa ToDo app container:
 
 ***
 
+## How to apply all manifests
+Use commands:
+```
+kubectl apply -f namespace.yml
+```
+```
+kubectl apply -f clusterIp.yml
+```
+```
+kubectl apply -f nodeport.yml
+```
+```
+kubectl apply -f deployment.yml
+```
+
 ## How to deploy Daemonset and Cronjob
 ### Use this commands
 
@@ -82,9 +97,9 @@ kubectl get cronjob -n mateapp
 ### Use this commands
 
 ```
-kubectl get pods -n mateapp
+kubectl get pods -n todoapp
 ```
 
 ```
-kubectl logs <name_of_pod> -n mateapp
+kubectl logs <name_of_pod> -n todoapp
 ```

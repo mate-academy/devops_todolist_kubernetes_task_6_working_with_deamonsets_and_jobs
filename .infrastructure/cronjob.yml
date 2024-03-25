@@ -1,8 +1,8 @@
 apiVersion: batch/v1
 kind: CronJob
 metadata:
-  name: todo-cronjob
-  namespace: mateapp
+  name: todoapp-cronjob
+  namespace: todoapp
 spec:
   schedule: "*/4 * * * *"
   concurrencyPolicy: Allow

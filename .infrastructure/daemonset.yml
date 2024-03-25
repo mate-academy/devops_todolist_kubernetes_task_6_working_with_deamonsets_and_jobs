@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: DaemonSet
 metadata:
   name: todoapp-daemonset
-  namespace: mateapp
+  namespace: todoapp
 spec:
   selector:
     matchLabels:
