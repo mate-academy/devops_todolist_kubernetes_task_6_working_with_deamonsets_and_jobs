@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: todoapp
-  namespace: todoapp
+  namespace: mateapp
 spec:
   strategy:
     type: RollingUpdate
@@ -22,14 +22,19 @@ spec:
         image: ikulyk404/todoapp:3.0.0
         resources:
           requests:
-            memory: "256Mi"
-            cpu: "150m"
+            memory: "400Mi"
+            cpu: "200m"
           limits:
-            memory: "256Mi"
-            cpu: "150m"
+            memory: "800Mi"
+            cpu: "400m"
         env:
         - name: PYTHONUNBUFFERED
           value: "1"
+        - name: SECRET_KEY
+          valueFrom:
+            secretKeyRef:
+              name: mysecret
+              key: SECRET_KEY  
         ports:
         - containerPort: 8080
         livenessProbe:
