@@ -49,3 +49,24 @@ Create a kubernetes manifest for a pod which will containa ToDo app container:
 1. `README.md` should be updated with the instructions on how to deploy `daemonset.yml` and `cronjob.yml` to the cluster.
 1. `README.md` should be updated with the instructions on how to validate the solution. (Logs for the `daemonset` and `cronjob` should be present)
 1. Create PR with your changes and attach it for validation on a platform.
+
+## To deploy the DaemonSet to your Kubernetes cluster, follow these steps:
+$kubectl apply -f daemonset.yml
+Check if the DaemonSet has been successfully deployed and all pods are running:
+$kubectl get daemonset -n mateapp
+
+## To deploy the CronJob, use the following steps:
+$kubectl apply -f cronjob.yml
+$kubectl get cronjob -n mateapp
+
+## Validating:
+First, find the name of one of the pods created by the DaemonSet:
+$kubectl get pods -n mateapp -l app=todoapp-monitor
+Replace <pod-name> with the name of the pod from the previous command:
+$kubectl logs <pod-name> -n mateapp
+This command will display the output of the curl commands being executed within the pod.
+To see the instances of the CronJob that have run:
+$kubectl get jobs -n mateapp -l job-name=todoapp-health-check
+Pick a job from the list and replace <job-name> with its name to view the logs:
+$kubectl logs job/<job-name> -n mateapp
+This will display the results of the health check endpoint being accessed by the CronJob.
