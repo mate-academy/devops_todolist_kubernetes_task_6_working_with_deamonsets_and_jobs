@@ -49,3 +49,50 @@ Create a kubernetes manifest for a pod which will containa ToDo app container:
 1. `README.md` should be updated with the instructions on how to deploy `daemonset.yml` and `cronjob.yml` to the cluster.
 1. `README.md` should be updated with the instructions on how to validate the solution. (Logs for the `daemonset` and `cronjob` should be present)
 1. Create PR with your changes and attach it for validation on a platform.
+
+
+In order to deploy `daemonset.yml` and `cronjob.yml` I changed the next files:
+clusterIp.yml, deployment.yml, hpa.yml, namespace.yml
+Go to the directory .infrastructure
+At first, create namespace 'mateapp' and execute the command
+kubectl apply -f namespace.yml
+
+Then you can configure your context and set current namespace
+kubectl config set-context --current --namespace=mateapp
+
+Apply the next yml-files
+kubectl apply -f deployment.yml
+kubectl apply -f hpa.yml
+kubectl apply -f clusterIp.yml
+
+In order to check pods with the application you should execute the command
+kubectl get pods
+
+In order to check current services for current namespace you should execute the command
+kubectl get service
+
+Now, we have pods with the application and clusterIp service
+
+In order to start daemonset you should apply the next yaml-file
+kubectl apply -f daemonset.yml
+
+In order to check current daemonset
+kubectl get daemonset
+
+Then, execute the command
+kubectl get pods
+you can see the name of daemonset pod
+
+In order to check logs of daemonset
+kubectl logs <name of daemonset pod>
+
+
+In order to start cronjob you should apply the next yaml-file
+kubectl apply -f cronjob.yml
+
+In order to review
+kubectl get cronjobs
+
+In order to check logs of cronjob
+kubectl logs <name of cronjob pod>
+
