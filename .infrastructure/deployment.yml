@@ -1,8 +1,8 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: todoapp
-  namespace: todoapp
+  name: todoapp-deployment
+  namespace: mateapp
 spec:
   strategy:
     type: RollingUpdate
@@ -18,8 +18,8 @@ spec:
         app: todoapp
     spec:
       containers:
-      - name: todoapp
-        image: ikulyk404/todoapp:3.0.0
+      - name: todoapp-container
+        image: yaaszp/todoapp:3.0.0
         resources:
           requests:
             memory: "256Mi"
@@ -34,7 +34,7 @@ spec:
         - containerPort: 8080
         livenessProbe:
           httpGet:
-            path: api/health
+            path: api/alive
             port: 8080
           initialDelaySeconds: 60
           periodSeconds: 5
