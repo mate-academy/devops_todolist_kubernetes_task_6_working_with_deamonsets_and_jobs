@@ -13,9 +13,9 @@ spec:
         app: todoapp-daemonset
     spec:
       containers:
-      - name: busybox
-        image: yauritux/busybox-curl
-        command: ['sh', '-c', 'while true; do curl -sS http://todoapp-clusterip-service/api/health; sleep 5; done']
+      - name: curl-container
+        image: curlimages/curl
+        command: ["/bin/sh", "-c", "while true; do curl http://todoapp-service.todoapp.svc.cluster.local; sleep 5; done"]
         resources:
           requests:
             cpu: "100m"

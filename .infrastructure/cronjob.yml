@@ -13,14 +13,12 @@ spec:
       template:
         spec:
           containers:
-          - name: busybox
-            image: yauritux/busybox-curl
+          - name: todoapp
+            image: curlimages/curl
             command:
             - /bin/sh
             - -c
-            - |
-              curl -sS http://todoapp-service.todoapp.svc.cluster.local:80/api/health && \
-              curl -sS http://192.168.65.3:30007/api/health
+            - curl http://todoapp-service.todoapp.svc.cluster.local/api/ready
             resources:
               requests:
                 cpu: "100m"

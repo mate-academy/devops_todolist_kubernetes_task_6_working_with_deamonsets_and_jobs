@@ -50,17 +50,18 @@ Create a kubernetes manifest for a pod which will containa ToDo app container:
 1. `README.md` should be updated with the instructions on how to validate the solution. (Logs for the `daemonset` and `cronjob` should be present)
 1. Create PR with your changes and attach it for validation on a platform.
 
+Readme.md updated
 
-1. apply all manifests
+ After creation cronjob and daemonset manifests use comand:
 
 '''
 kubectl apply -f .infrastructure
+kubectl get pods -n mateapp
 '''
 
-2. validation
-
+ validation
+  
 '''
-kubectl logs -l app=todoapp-daemonset -n mateapp
-
+kubectl logs <name of cronjob pod or daemonset pod> -n mateapp
 kubectl get jobs -n mateapp
 '''
