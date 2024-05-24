@@ -6,7 +6,9 @@ metadata:
 spec:
   containers:
   - name: busybox
-    image: radial/busyboxplus:curl
-    args:
-    - sleep
-    - "1000"
+    image: yauritux/busybox-curl
+    command: ['sh', '-c', 'echo Hello Kubernetes! && sleep 3600']
+    resources:
+      limits:
+        cpu: "0.5"
+        memory: "512Mi"
