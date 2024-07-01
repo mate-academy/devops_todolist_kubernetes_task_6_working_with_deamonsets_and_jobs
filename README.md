@@ -1,51 +1,47 @@
-# Django ToDo list
-
-This is a todo list web application with basic features of most web apps, i.e., accounts/login, API, and interactive UI. To do this task, you will need:
-
-- CSS | [Skeleton](http://getskeleton.com/)
-- JS  | [jQuery](https://jquery.com/)
-
-## Explore
-
-Try it out by installing the requirements (the following commands work only with Python 3.8 and higher, due to Django 4):
+1. Recreate and check all feature from previous task
 
 ```
-pip install -r requirements.txt
+kubectl apply -f .infrastructure/namespace.yml
+kubectl config set-context --current --namespace=mateapp
+kubectl apply -f .infrastructure/deployment.yml
+kubectl get deployments -o wide
+kubectl apply -f .infrastructure/hpa.yml
+kubectl get hpa -o wide
+kubectl apply -f .infrastructure/curl.yml
+kubectl get pods -o wide
+kubectl apply -f .infrastructure/clusterIp.yml
+kubectl apply -f .infrastructure/nodeport.yml
+kubectl get svc -o wide
 ```
 
-Create a database schema:
+2. Create and check DeamonSet service
 
 ```
-python manage.py migrate
+kubectl apply -f .infrastructure/deamonSet.yml
+kubectl get pods -o wide
 ```
 
-And then start the server (default is http://localhost:8000):
+3. Check logs of created pod
 
 ```
-python manage.py runserver
+kubectl logs <name of deamonSet pod from pods list>
 ```
 
-Now you can browse the [API](http://localhost:8000/api/) or start on the [landing page](http://localhost:8000/).
+4. Schedule your Cron Job and wait for a time executing
 
-## Task
+```
+kubectl apply -f .infrastructure/cronJob.yml
+```
 
-Create a kubernetes manifest for a pod which will containa ToDo app container:
+5. Check for successfully created CronJob by executing
 
-1. Fork this repository.
-1. Create a `daemonset.yml` file with a daemonset.
-1. DaemonSet requirements:
-    1. Container: busyboxplus:curl
-    1. Resource requests and limits should be present
-    1. Every 5 seconds it should execue a `curl` command to a clusterIp service of a todoapp.
-1. Createa a `cronjob.yml` file with a CrobJob manifest.
-1. CrobJob requirements:
-    1. Container: `busyboxplus:curl`
-    1. Resource requests and limits
-    1. Every 4 minutes it should call a `/api/health` endpoint of todoapp via a clusterIp service.
-    1. Should keep 10 successful runs in history
-    1. Should keep 5 failed runs in history
-    1. Should have a `concurrencyPolicy` set to `Allow`
-1. Both new manifests should belong to `mateapp` namespace
-1. `README.md` should be updated with the instructions on how to deploy `daemonset.yml` and `cronjob.yml` to the cluster.
-1. `README.md` should be updated with the instructions on how to validate the solution. (Logs for the `daemonset` and `cronjob` should be present)
-1. Create PR with your changes and attach it for validation on a platform.
+```
+kubectl get cronJobs -o wide
+```
+
+6. After waiting? get all pods and check for logs of CronJob
+
+```
+kubectl get pods -o wide
+kubectl logs <name of completed cronjob from pods list>
+```
