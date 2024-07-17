@@ -16,6 +16,13 @@ spec:
           containers:
           - name: health
             image: busyboxplus:curl
+            resources:
+              requests:
+                cpu: "100m"
+                memory: "100Mi"
+              limits:
+                cpu: "100m"
+                memory: "100Mi"
             command:
             - /bin/sh
             - -c 
