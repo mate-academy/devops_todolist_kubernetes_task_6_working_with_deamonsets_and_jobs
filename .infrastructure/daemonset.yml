@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: DaemonSet
 metadata:
   name: busybox-daemonset
-  namespace: mateapp
+  namespace: todoapp
 spec:
   selector:
     matchLabels:
@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: busybox
-        image: busybox:stable
+        image: curlimages/curl:latest
         resources:
           requests:
             cpu: "100m"
