@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: todoapp-daemon
+  namespace: todoapp
+  labels:
+    app: todoapp
+spec:
+  selector:
+    matchLabels:
+      app: todoapp
+  template:
+    metadata:
+      labels:
+        app: todoapp
+    spec:
+      containers:
+        - name: busybox
+          image: radial/busyboxplus:curl
+          args:
+            - sleep
+            - "1000"
+          command:
+            - bin/sh
+            - -c
+            - while sleep 5; do curl http://todoappclusterip.todoapp.svc.cluster.local/api/health; done
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "250m"
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
