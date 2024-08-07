@@ -1,51 +1,64 @@
-# Django ToDo list
+# Deployment Guide
+1. **Apply Namespace Configuration**
+    ```sh
+    kubectl apply -f namespace.yml
+    ```
 
-This is a todo list web application with basic features of most web apps, i.e., accounts/login, API, and interactive UI. To do this task, you will need:
+2. **Apply Deployment Configuration**
+    ```sh
+    kubectl apply -f deployment.yml
+    ```
 
-- CSS | [Skeleton](http://getskeleton.com/)
-- JS  | [jQuery](https://jquery.com/)
+3. **Apply Horizontal Pod Autoscaler (HPA) Configuration**
+    ```sh
+    kubectl apply -f hpa.yml
+    ```
 
-## Explore
+4. **Apply BusyBox Configuration**
+    ```sh
+    kubectl apply -f busybox.yml
+    ```
 
-Try it out by installing the requirements (the following commands work only with Python 3.8 and higher, due to Django 4):
+5. **Apply ClusterIP Service Configuration**
+    ```sh
+    kubectl apply -f clusterIp.yml
+    ```
 
-```
-pip install -r requirements.txt
-```
+6. **Apply NodePort Service Configuration**
+    ```sh
+    kubectl apply -f nodeport.yml
+    ```
 
-Create a database schema:
+7. **Apply DaemonSet Configuration**
+    ```sh
+    kubectl apply -f daemonset.yml
+    ```
 
-```
-python manage.py migrate
-```
+8. **Apply CronJob Configuration**
+    ```sh
+    kubectl apply -f cronjob.yml
+    ```
 
-And then start the server (default is http://localhost:8000):
+## Verification
 
-```
-python manage.py runserver
-```
+1. **Check Pods**
+    ```sh
+    kubectl get pods -n mateapp
+    ```
 
-Now you can browse the [API](http://localhost:8000/api/) or start on the [landing page](http://localhost:8000/).
+2. **Check DaemonSet**
+    ```sh
+    kubectl get daemonset -n mateapp
+    ```
 
-## Task
+3. **Check CronJobs**
+    ```sh
+    kubectl get cronjobs -n mateapp
+    ```
 
-Create a kubernetes manifest for a pod which will containa ToDo app container:
+4. **Check Logs**
+    ```sh
+    kubectl logs <name_of_pod> -n mateapp
+    ```
 
-1. Fork this repository.
-1. Create a `daemonset.yml` file with a daemonset.
-1. DaemonSet requirements:
-    1. Container: busyboxplus:curl
-    1. Resource requests and limits should be present
-    1. Every 5 seconds it should execue a `curl` command to a clusterIp service of a todoapp.
-1. Createa a `cronjob.yml` file with a CrobJob manifest.
-1. CrobJob requirements:
-    1. Container: `busyboxplus:curl`
-    1. Resource requests and limits
-    1. Every 4 minutes it should call a `/api/health` endpoint of todoapp via a clusterIp service.
-    1. Should keep 10 successful runs in history
-    1. Should keep 5 failed runs in history
-    1. Should have a `concurrencyPolicy` set to `Allow`
-1. Both new manifests should belong to `mateapp` namespace
-1. `README.md` should be updated with the instructions on how to deploy `daemonset.yml` and `cronjob.yml` to the cluster.
-1. `README.md` should be updated with the instructions on how to validate the solution. (Logs for the `daemonset` and `cronjob` should be present)
-1. Create PR with your changes and attach it for validation on a platform.
+Replace `<name_of_pod>` with the actual name of the pod you want to check logs for.
