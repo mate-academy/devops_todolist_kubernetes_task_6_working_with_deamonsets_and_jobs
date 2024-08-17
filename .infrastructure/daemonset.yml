@@ -18,7 +18,7 @@ spec:
      - name: busybox
        image: ikulyk404/busyboxplus:curl
        command:
-            - bin/sh
+            - /bin/sh
             - -c
             - while sleep 5; do curl http://todoappclusterip.todoapp.svc.cluster.local/api/health; done
        resources:
