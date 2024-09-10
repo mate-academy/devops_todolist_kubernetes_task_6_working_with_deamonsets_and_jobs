@@ -4,12 +4,12 @@ metadata:
   name: todoapp-cronjob
   namespace: mateapp
 spec:
-  schedule: "*/4 * * * *"  # This means the job will run every 4 minutes
+  schedule: "*/4 * * * *"  
   jobTemplate:
     spec:
       template:
         spec:
-        containers:
+          containers:
           - name: busybox
             image: radial/busyboxplus:curl
             command: ["/bin/sh", "-c", "curl -f http://todoapp-clusterip/api/health || exit 1"]
