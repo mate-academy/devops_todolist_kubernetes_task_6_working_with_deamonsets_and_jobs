@@ -49,3 +49,46 @@ Create a kubernetes manifest for a pod which will containa ToDo app container:
 1. `README.md` should be updated with the instructions on how to deploy `daemonset.yml` and `cronjob.yml` to the cluster.
 1. `README.md` should be updated with the instructions on how to validate the solution. (Logs for the `daemonset` and `cronjob` should be present)
 1. Create PR with your changes and attach it for validation on a platform.
+
+
+# How to deploy DaemonSet and CronJob
+
+**Deploy the DaemonSet:** The DaemonSet will run a busyboxplus:curl container on every node in the cluster. The container runs a while loop with a curl command to test the health of the ToDo application.
+
+To apply the DaemonSet to your Kubernetes cluster:
+
+ ``` 
+kubectl apply -f .infrastructure/daemonset.yml -n mateapp
+ ```
+
+To check if the DaemonSet is running, use the following command:
+
+```
+kubectl get daemonset -n mateapp
+```
+
+You can also check the logs for the DaemonSet by using the following command:
+
+```
+kubectl logs -l app=busybox -n mateapp
+```
+
+Deploy the CronJob: The CronJob will run every 4 minutes and call the /api/health endpoint of the ToDo application using a curl command.
+
+To apply the CronJob to your Kubernetes cluster:
+
+```
+kubectl apply -f .infrastructure/cronjob.yml -n mateapp
+```
+
+To check if the CronJob is running, use the following commands:
+
+```
+kubectl get cronjobs -n mateapp
+kubectl get jobs -n mateapp
+```
+
+You can also check the logs for the most re
+```
+kubectl logs job/todoapp-cronjob-<job-id> -n mateapp
+```
