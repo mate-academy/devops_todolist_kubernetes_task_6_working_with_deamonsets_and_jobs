@@ -27,5 +27,4 @@ spec:
         - -c
         - "while true; 
         do curl http://todoapp-service.todoapp.svc.cluster.local; 
-        sleep 5; done"      
-         
+        sleep 5; done"             
