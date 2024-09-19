@@ -47,5 +47,33 @@ Create a kubernetes manifest for a pod which will containa ToDo app container:
     1. Should have a `concurrencyPolicy` set to `Allow`
 1. Both new manifests should belong to `mateapp` namespace
 1. `README.md` should be updated with the instructions on how to deploy `daemonset.yml` and `cronjob.yml` to the cluster.
+
+Instruction:
+
+Apply daemonSet:
+```
+kubectl apply -f .infrastructure/daemonset.yml
+```
+
+Apply cronJob:
+```
+kubectl apply -f .infrastructure/cronjob.yml
+```
+
+Check status:
+```
+kubectl get pods -o wide
+```
+
 1. `README.md` should be updated with the instructions on how to validate the solution. (Logs for the `daemonset` and `cronjob` should be present)
+
+Check the daemonSet logs (if logs include the HTML of the todoapp - everything works well):
+```
+kubectl logs todoapp-daemon-{random symbols}
+```
+Check the cronJob logs (if logs include only statistics data - everything works well):
+```
+kubectl logs cronjob-{random symbols}
+```
+
 1. Create PR with your changes and attach it for validation on a platform.
