@@ -1,0 +1,26 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: todoapp-cronjob
+  namespace: mateapp
+spec:
+  schedule: "*/4 * * * *"  
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: busybox
+            image: radial/busyboxplus:curl
+            command: ["/bin/sh", "-c", "curl -f http://todoapp-clusterip/api/health || exit 1"]
+            resources:
+              requests:
+                memory: "64Mi"
+                cpu: "250m"
+              limits:
+                memory: "128Mi"
+                cpu: "500m"
+          restartPolicy: OnFailure
+  successfulJobsHistoryLimit: 10  # Keep record of 10 successful jobs
+  failedJobsHistoryLimit: 5       # Keep record of 5 failed jobs
+  concurrencyPolicy: Allow
