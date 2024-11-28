@@ -50,3 +50,21 @@ Create a Kubernetes manifest for a pod that will contain a ToDo app container:
 1. `INSTRUCTION.md` should contain the instructions on how to deploy `daemonset.yml` and `cronjob.yml` to the cluster.
 1. `INSTRUCTION.md` should be updated with the instructions on how to validate the solution. (Logs for the `daemonset` and `cronjob` should be present)
 1. Create PR with your changes and attach it for validation on a platform.
+
+# How to deploy DaemonSet and CronJob:
+```
+kubectl apply -f daemonset.yml
+```
+
+```
+kubectl apply -f cronjob.yml
+```
+# How to test them
+1) Find new pods:
+```
+kubectl get pods -n mateapp
+```
+2) Look their logs:
+```
+kubectl logs <name_of_pod> -n mateapp
+```
