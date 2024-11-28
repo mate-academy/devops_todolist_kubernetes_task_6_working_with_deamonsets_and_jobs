@@ -1,0 +1,31 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: cron-log
+  namespace: todoapp
+spec:
+  schedule: "*/4 * * * *"
+  concurrencyPolicy: "Allow"
+  startingDeadlineSeconds: 60
+  successfulJobsHistoryLimit: 10
+  failedJobsHistoryLimit: 5
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: todoapp
+            image: ikulyk404/busyboxplus:curl
+            resources:
+              requests:
+                cpu: "100m"
+                memory: "75Mi"
+              limits:
+                cpu: "200m"
+                memory: "150Mi"
+            command:
+              - /bin/sh
+              - -c
+              - |
+                curl http://todoapp-service:80/api/health;
+          restartPolicy: OnFailure
