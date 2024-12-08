@@ -1,0 +1,23 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+ name: hello-cronjob
+ namespace: mateapp
+spec:
+ schedule: "*/4 * * * *"
+ concurrencyPolicy: Replace
+ startingDeadlineSeconds: 100
+ successfulJobsHistoryLimit: 10
+ failedJobsHistoryLimit: 5
+ jobTemplate:
+   spec:
+     template:
+       spec:
+         containers:
+           - name: todoapp
+             image: ikulyk404/busyboxplus:curl
+             command:
+               - /bin/sh
+               - -c
+               - curl http://localhost/api/health
+         restartPolicy: OnFailure

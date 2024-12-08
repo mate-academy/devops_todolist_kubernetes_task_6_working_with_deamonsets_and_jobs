@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+ name: kube2py
+ namespace: mateapp
+ labels:
+   app: kube2py
+spec:
+ selector:
+   matchLabels:
+     app: kube2py
+ template:
+   metadata:
+     labels:
+       app: kube2py
+   spec:
+     containers:
+     - name: busybox
+       image: ikulyk404/busyboxplus:curl
+       resources:
+         requests:
+           cpu: "100m"
+           memory: "100Mi"
+         limits:
+           cpu: "200m"
+           memory: "200Mi"
+       ports:
+       - containerPort: 80
+         hostPort: 30008
+     terminationGracePeriodSeconds: 5
