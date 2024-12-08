@@ -8,11 +8,11 @@ metadata:
 spec:
  selector:
    matchLabels:
-     app: mate-server
+     app: kube2py
  template:
    metadata:
      labels:
-       app: mate-server
+       app: kube2py
    spec:
      containers:
      - name: busybox
