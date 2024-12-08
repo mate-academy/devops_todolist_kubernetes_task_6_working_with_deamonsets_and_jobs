@@ -19,5 +19,5 @@ spec:
              command:
                - /bin/sh
                - -c
-               - curl http://172.18.0.4:30008/api/health
+               - curl http://localhost//api/health
          restartPolicy: OnFailure
