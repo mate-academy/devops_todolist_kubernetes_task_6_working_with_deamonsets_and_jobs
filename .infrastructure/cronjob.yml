@@ -26,5 +26,4 @@ spec:
                 - /bin/sh
                 - -c 
                 - "curl http://todoapp-service.todoapp.svc.cluster.local/api/health"
-          restartPolicy: OnFailure
-    
+          restartPolicy: OnFailure    
