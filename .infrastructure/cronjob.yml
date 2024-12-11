@@ -1,0 +1,32 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: busybox-cronjob
+  namespace: mateapp
+spec:
+  schedule: "*/4 * * * *"
+  concurrencyPolicy: Allow
+  successfulJobsHistoryLimit: 10
+  failedJobsHistoryLimit: 5
+  jobTemplate:
+    spec:
+      template:
+        metadata:
+          namespace: mateapp
+          labels:
+            app: todoapp-cron
+        spec:
+          containers:
+            - name: busybox
+              image: niklafinskiy/alpine-curl:1.0.0
+              command: ["/bin/sh", 
+                "-c", 
+                "apk update && apk add coreutils && curl -v http://todoapp-service.mateapp.svc.cluster.local/api/health"]
+              resources:
+                requests:
+                  cpu: "100m"
+                  memory: "64Mi"
+                limits: 
+                  cpu: "200m"
+                  memory: "128Mi"
+          restartPolicy: OnFailure
