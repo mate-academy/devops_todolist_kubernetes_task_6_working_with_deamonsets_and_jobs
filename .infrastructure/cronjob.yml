@@ -2,7 +2,7 @@ apiVersion: batch/v1
 kind: CronJob
 metadata:
   name: todoapp-cronjob
-  namespace: todoapp
+  namespace: mateapp
 spec:
   schedule: "*/4 * * * *"
   concurrencyPolicy: Allow
@@ -13,17 +13,17 @@ spec:
       template:
         spec:
           containers:
-          - name: busybox
-            image: ikulyk404/busyboxplus:curl
-            resources:
-              requests:
-                memory: "100Mi"
-                cpu: "100m"
-              limits:
-                memory: "200Mi"
-                cpu: "200m"
-            command:
-            - /bin/sh
-            - -c
-            - "curl http://todoapp-service.todoapp.svc.cluster.local/api/ready"
+            - name: busybox
+              image: ikulyk404/busyboxplus:curl
+              resources:
+                requests:
+                  cpu: "100m"
+                  memory: "100Mi"
+                limits:
+                  cpu: "200m"
+                  memory: "200Mi"
+              command:
+                - /bin/sh
+                - -c
+                - "curl http://todoapp-service.todoapp.svc.cluster.local/api/health"
           restartPolicy: OnFailure

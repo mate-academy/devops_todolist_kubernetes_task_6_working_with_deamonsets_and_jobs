@@ -1,9 +1,9 @@
-apiVersion: apps/v1
+apiVesrion: apps/v1
 kind: DaemonSet
 metadata:
   name: todoapp-daemonset
-  namespace: todoapp
-  labels:
+  namespaces: mateapp
+  labes:
     app: todoapp
 spec:
   selector:
@@ -16,8 +16,8 @@ spec:
     spec:
       containers:
         - name: todoapp-daemonset
-          image: ikulyk404/busyboxplus:curl
-          command: ["sh", "-c", "while true; do curl http://todoapp-service.todoapp.svc.cluster.local; sleep 5; done"]
+          image: busyboxplus:curl
+          command: ["sh", "-c", "while true; do curl http://todoapp-service.todoapp.svc.cluster.local && sleep 5; done"]
           resources:
             requests:
               cpu: "100m"
