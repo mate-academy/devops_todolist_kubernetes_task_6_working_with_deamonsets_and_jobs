@@ -1,0 +1,29 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: todoapp-health-check
+  namespace: mateapp
+spec:
+  schedule: "*/4 * * * *"  # Every 4 minutes
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: busybox
+            image: ikulyk404/busyboxplus:curl
+            args:
+            - "sh"
+            - "-c"
+            - "curl todoapp-service:80/api/health"
+            resources:
+              requests:
+                cpu: "50m"
+                memory: "30Mi"
+              limits:
+                cpu: "100m"
+                memory: "60Mi"
+          restartPolicy: OnFailure
+  successfulJobsHistoryLimit: 10
+  failedJobsHistoryLimit: 5
+  concurrencyPolicy: Allow
