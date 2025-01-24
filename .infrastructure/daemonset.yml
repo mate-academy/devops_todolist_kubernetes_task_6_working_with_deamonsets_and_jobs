@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+ name: daemon-pod
+ namespace: mateapp
+ labels:
+   app: mateapp
+spec:
+ selector:
+   matchLabels:
+     app: mateapp
+ template:
+   metadata:
+     labels:
+       app: mateapp
+   spec:
+     containers:
+     - name: mate-server-daemon
+       image: curlimages/curl:latest
+       command: ["/bin/sh", "-c", "while true; do curl --connect-timeout 5 --max-time 5 http://todoapp-service:8083/api/health; sleep 5; done"]
+       resources:
+         requests:
+           cpu: "100m"
+           memory: "128Mi"
+         limits:
+           cpu: "200m"
+           memory: "256Mi"
+       ports:
+       - containerPort: 81
+         hostPort: 30008
+     dnsPolicy: ClusterFirst

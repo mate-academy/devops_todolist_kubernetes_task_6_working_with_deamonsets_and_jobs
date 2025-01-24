@@ -1,0 +1,10 @@
+resources:
+  - namespace.yml
+  - clusterIp.yml
+  - nodeport.yml
+#  - busybox.yml
+#  - todoapp-pod.yml
+  - deployment.yml
+  - hpa.yml
+  - daemonset.yml
+  - cronjob.yml
