@@ -4,7 +4,7 @@ metadata:
   name: hello-cronjob
   namespace: todoapp
 spec:
-  schedule: "*/5 * * * *"
+  schedule: "*/4 * * * *"
   concurrencyPolicy: Allow
   successfulJobsHistoryLimit: 10
   failedJobsHistoryLimit: 5
