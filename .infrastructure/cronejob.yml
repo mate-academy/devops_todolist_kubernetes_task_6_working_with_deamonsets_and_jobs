@@ -1,0 +1,21 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: hello-cronjob
+  namespace: todoapp
+spec:
+  schedule: "*/5 * * * *"
+  concurrencyPolicy: Allow
+  successfulJobsHistoryLimit: 10
+  failedJobsHistoryLimit: 5
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+            - name: curl-container
+              image: ikulyk404/busyboxplus:curl
+              command: [ "/bin/sh", "-c" ]
+              args:
+                - curl -s http://todoapp-service.todoapp.svc.cluster.local/api/health || echo "Health check failed";
+          restartPolicy: OnFailure
