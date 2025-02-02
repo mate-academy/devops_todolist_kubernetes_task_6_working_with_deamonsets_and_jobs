@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: busybox-curl
+  namespace: todoapp
+  labels:
+    app: busybox-curl
+spec:
+  selector:
+    matchLabels:
+      app: busybox-curl
+  template:
+    metadata:
+      labels:
+        app: busybox-curl
+    spec:
+      containers:
+      - name: busybox-curl
+        image: yurakolam/busyboxplus:curl
+        imagePullPolicy: Always
+        resources:
+          requests:
+            cpu: "100m"
+            memory: "100Mi"
+          limits:
+            cpu: "200m"
+            memory: "200Mi"
+        ports:
+        - containerPort: 80
+          hostPort: 30009
+        command: ["/bin/sh", "-c", "while true; do curl -s http://todoapp.todoapp.svc.cluster.local; sleep 5; done"]
