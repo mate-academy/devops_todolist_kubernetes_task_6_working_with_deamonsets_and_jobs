@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: todoapp
+  namespace: mateapp
+  labels:
+    app: todoapp
+spec:
+  selector:
+    matchLabels:
+      app: todoapp-service
+  template:
+    metadata:
+      labels:
+        app: todoapp-service
+    spec:
+      containers:
+        - name: todoapp-service
+          image: busyboxplus:curl
+          command:
+            - /bin/sh
+            - -c
+            - curl -s http://todoapp-service.mateapp.svc.cluster.local/api/health || echo "Healthcheck failed"
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "100Mi"
+            limits:
+              cpu: "200m"
+              memory: "200Mi"
+          ports:
+            - containerPort: 80
+              hostPort: 30008
