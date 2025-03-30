@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: busybox-curler
+  namespace: mateapp
+  labels:
+    app: busybox-curler
+spec:
+  selector:
+    matchLabels:
+      app: busybox-curler
+  template:
+    metadata:
+      labels:
+        app: busybox-curler
+    spec:
+      containers:
+      - name: busybox-curler
+        image: radial/busyboxplus:curl
+        args:
+        - /bin/sh
+        - -c
+        - >
+          while true; do
+            curl http://todoapp-service.mateapp.svc.cluster.local/api/health;
+            sleep 5;
+          done
+        resources:
+          requests:
+            cpu: "200m"
+            memory: "100Mi"
+          limits:
+            cpu: "400m"
+            memory: "200Mi"
