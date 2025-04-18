@@ -1,7 +1,7 @@
 apiVersion: batch/v1
 kind: CronJob
 metadata:
-  name: CrobJob
+  name: cronjob
   namespace: mateapp
 spec:
   schedule: "*/4 * * * *" #	Run every 4 minutes
@@ -13,7 +13,7 @@ spec:
       template:
         spec:
           containers:
-            - name: CrobJob
+            - name: cronjob
               image: busyboxplus:curl
               imagePullPolicy: IfNotPresent
               args:
@@ -22,10 +22,10 @@ spec:
                 - "curl http://todoapp-clusterip-service/api/health"
               resources:
                 requests:
-                  cpu-request: "100m"
-                  memory-request: "64Mi"
+                  cpu: "100m"
+                  memory: "64Mi"
                 limits:
-                  cpu-limit: "200m"
-                  memory-limit: "128Mi"
+                  cpu: "200m"
+                  memory: "128Mi"
 
           restartPolicy: OnFailure

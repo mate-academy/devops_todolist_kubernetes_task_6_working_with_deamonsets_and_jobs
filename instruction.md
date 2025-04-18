@@ -12,7 +12,7 @@
 
 ### 1. Deploy `daemonset.yml`
 
-1. Apply the `daemonset.yml` file to the cluster using the following command:
+1. Apply the `.infrastructure/deamonset.yaml` file to the cluster using the following command:
    ```bash
    kubectl apply -f daemonset.yml
    ```
@@ -27,7 +27,7 @@
 
 ### 2. Deploy `cronjob.yml`
 
-1. Apply the `cronjob.yml` file to the cluster using the following command:
+1. Apply the `.infrastructure/cronjob.yaml` file to the cluster using the following command:
    ```bash
    kubectl apply -f cronjob.yml
    ```
@@ -99,9 +99,9 @@ To delete the deployed resources, use the following commands:
 
 1. Delete the DaemonSet:
    ```bash
-   kubectl delete -f daemonset.yml
+   kubectl delete -f .infrastructure/deamonset.yaml
    ```
 2. Delete the CronJob:
    ```bash
-   kubectl delete -f cronjob.yml
+   kubectl delete -f .infrastructure/cronjob.yaml
    ```

@@ -1,4 +1,4 @@
-apiVersion: apps/v2
+apiVersion: apps/v1
 kind: DaemonSet
 metadata:
   name: todoapp
@@ -13,7 +13,7 @@ spec:
         app: todoapp
     spec:
       containers:
-        - name: busyboxplus:curl
+        - name: busyboxplus
           image: busybox
           args:
             - /bin/sh
