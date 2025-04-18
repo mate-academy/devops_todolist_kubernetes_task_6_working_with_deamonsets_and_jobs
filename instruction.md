@@ -14,7 +14,7 @@
 
 1. Apply the `.infrastructure/deamonset.yaml` file to the cluster using the following command:
    ```bash
-   kubectl apply -f daemonset.yml
+   kubectl apply -f .infrastructure/deamonset.yaml
    ```
 
 2. Verify the DaemonSet is successfully deployed:
@@ -29,7 +29,7 @@
 
 1. Apply the `.infrastructure/cronjob.yaml` file to the cluster using the following command:
    ```bash
-   kubectl apply -f cronjob.yml
+   kubectl apply -f .infrastructure/cronjob.yaml
    ```
 
 2. Verify the CronJob is successfully deployed:
@@ -48,7 +48,7 @@ To ensure the DaemonSet is running properly, check the logs of one of its pods. 
 
 1. First, list all pods created by the DaemonSet:
    ```bash
-   kubectl get pods -l app=<daemonset-label>
+   kubectl get pods -l app=todoapp
    ```
    Replace `<daemonset-label>` with the label used in the `daemonset.yml`.
 
@@ -66,7 +66,7 @@ To verify that the CronJob runs successfully:
 
 1. Check the pods created by the CronJob:
    ```bash
-   kubectl get pods -l job-name=<cronjob-name>
+   kubectl get pods -l job-name=cronjob
    ```
    Replace `<cronjob-name>` with the name specified in the `cronjob.yml`.
 
