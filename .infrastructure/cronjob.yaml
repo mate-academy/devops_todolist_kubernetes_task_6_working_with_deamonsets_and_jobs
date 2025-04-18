@@ -1,0 +1,31 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: cronjob
+  namespace: mateapp
+spec:
+  schedule: "*/4 * * * *" #	Run every 4 minutes
+  concurrencyPolicy: Allow
+  successfulJobsHistoryLimit: 10
+  failedJobsHistoryLimit: 5
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+            - name: cronjob
+              image: busyboxplus:curl
+              imagePullPolicy: IfNotPresent
+              args:
+                - /bin/sh
+                - -c
+                - "curl http://todoapp-clusterip-service/api/health"
+              resources:
+                requests:
+                  cpu: "100m"
+                  memory: "64Mi"
+                limits:
+                  cpu: "200m"
+                  memory: "128Mi"
+
+          restartPolicy: OnFailure
