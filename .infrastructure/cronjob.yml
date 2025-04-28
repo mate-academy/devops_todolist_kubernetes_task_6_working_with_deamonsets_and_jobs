@@ -1,0 +1,22 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: todoapp-cronjob
+  namespace: todoapp
+spec:
+  schedule: "*/4 * * * *"
+  concurrencyPolicy: Allow
+  successfulJobsHistoryLimit: 10
+  failedJobsHistoryLimit: 5
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+            - name: busybox
+              image: ikulyk404/busyboxplus:curl
+              command:
+                - /bin/sh
+                - -c
+                - curl http://todoapp-service.todoapp.svc.cluster.local/api/health
+          restartPolicy: OnFailure
