@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: curl-loop
-        image: busyboxplus:curl
+        image: ikulyk404/busyboxplus:curl
         resources:
           requests:
             cpu: "100m"
@@ -25,10 +25,6 @@ spec:
             cpu: "200m"
             memory: "200Mi"
         command:
-        - /bin/sh
-        - -c
-        - |
-          while true; do
-            curl -s http://todoapp-service/api/health;
-            sleep 5;
-          done
+          - /bin/sh
+          - -c
+          - "while true; do curl -s http://todoapp-service.mateapp.svc.cluster.local; sleep 5; done"

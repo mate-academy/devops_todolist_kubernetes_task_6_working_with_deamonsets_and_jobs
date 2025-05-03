@@ -6,7 +6,7 @@ metadata:
 spec:
  schedule: "*/4 * * * *"
  concurrencyPolicy: Allow
- startingDeadlineSeconds: 30
+ startingDeadlineSeconds: 10
  successfulJobsHistoryLimit: 10
  failedJobsHistoryLimit: 5
  jobTemplate:
@@ -15,7 +15,7 @@ spec:
        spec:
          containers:
          - name: health-check
-           image: busyboxplus:curl
+           image: ikulyk404/busyboxplus:curl
            resources:
             requests:
               memory: "100Mi"
@@ -26,5 +26,5 @@ spec:
            command:
            - /bin/sh
            - -c
-           - curl -s http://todoapp-service.mateapp.svc.cluster.local:8080/api/health
+           - "curl -s http://todoapp-service.mateapp.svc.cluster.local/api/health"
          restartPolicy: OnFailure
