@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: todoapp-monitor
+  namespace: mateapp
+  labels:
+    app: todoapp-monitor
+spec:
+  selector:
+    matchLabels:
+      app: todoapp-monitor
+  template:
+    metadata:
+      labels:
+        app: todoapp-monitor
+    spec:
+      containers:
+      - name: todoapp-monitor
+        image: curlimages/curl:latest
+        command: ["/bin/sh"]
+        args: ["-c", "while true; do curl -s http://todoapp-service:80; sleep 5; done"]
+        resources:
+          requests:
+            cpu: "100m"
+            memory: "100Mi"
+          limits:
+            cpu: "200m"
+            memory: "200Mi"
