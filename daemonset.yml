@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: busybox
+  namespace: mateapp
+  labels:
+    k8s-app: busybox
+spec:
+  selector:
+    matchLabels:
+      name: busybox
+  template:
+    metadata:
+      labels:
+        name: busybox
+    spec:
+      containers:
+      - name: busybox
+        image: ikulyk404/busyboxplus:curl
+        command: ["sh", "-c", "while true; do curl --connect-timeout 5 --max-time 5  http://localhost:8080/api/health; sleep 5; done"]
+        resources:
+          limits:
+            cpu: 100m
+            memory: 200Mi
+          requests:
+            cpu: 100m
+            memory: 200Mi
+        ports:
+        - containerPort: 80
+          hostPort: 30001
