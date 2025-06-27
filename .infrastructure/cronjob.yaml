@@ -1,0 +1,31 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+ name: todoapp-cronjob
+ namespace: todoapp
+spec:
+ schedule: "*/4 * * * *"
+ concurrencyPolicy: Allow
+ startingDeadlineSeconds: 100
+ successfulJobsHistoryLimit: 10
+ failedJobsHistoryLimit: 5
+ jobTemplate:
+   spec:
+     template:
+       metadata:
+          labels:
+            app: todoapp-cronjob
+       spec:
+         containers:
+         - name: todoapp-cronjob-busybox
+           image: curlimages/curl:latest
+           resources:
+            requests:
+              memory: "64Mi"
+              cpu: "250m"
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
+           command: ["/bin/sh", "-c", "curl http://todoapp-service.todoapp.svc.cluster.local:80/api/health"]
+         restartPolicy: OnFailure
+
