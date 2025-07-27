@@ -37,5 +37,5 @@ kubectl get jobs -n mateapp
 7. Verify logs of DaemonSet (pods):
 
 ```bash
-kubectl logs -l app=curl-daemon -n mateapp
+kubectl logs -l app=todoapp-curl-service -n mateapp
 ```

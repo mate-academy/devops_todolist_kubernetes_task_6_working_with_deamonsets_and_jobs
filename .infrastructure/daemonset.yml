@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: todoapp-curl-service
-          image: busybox
+          image: busyboxplus:curl
           command: ["/bin/sh", "-c"]
           args:
             - |
