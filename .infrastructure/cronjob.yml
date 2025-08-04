@@ -1,0 +1,29 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata: 
+  name: mateapp-cronjob
+  namespace: mateapp
+spec:
+  schedule: "*/5 * * * *"
+  concurrencyPolicy: Allow
+  startingDeadlineSeconds: 100
+  successfulJobsHistoryLimit: 10
+  failedJobsHistoryLimit: 5
+
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+            - name: busybox-job
+              image: busyboxplus/curl
+              resources:
+                requests:
+                  cpu: '100m'
+                  memory: '64Mi'
+                limits:
+                  cpu: '100m'
+                  memory: '64Mi'
+              command: ["sh", "-c", "curl http://localhost:8000/api/health/"]
+          restartPolicy: OnFailure
+
