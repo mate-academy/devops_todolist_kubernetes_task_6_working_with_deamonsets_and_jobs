@@ -1,0 +1,29 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: todoapp-healthcheck
+  namespace: mateapp
+spec:
+  schedule: "*/4 * * * *"
+  successfulJobsHistoryLimit: 10
+  failedJobsHistoryLimit: 5
+  concurrencyPolicy: Allow
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+            - name: healthcheck
+              image: busyboxplus/curl
+              args:
+                - /bin/sh
+                - -c
+                - curl http://todoapp:8000/api/health
+              resources:
+                requests:
+                  cpu: "10m"
+                  memory: "32Mi"
+                limits:
+                  cpu: "50m"
+                  memory: "64Mi"
+          restartPolicy: OnFailure
