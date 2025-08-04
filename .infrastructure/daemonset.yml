@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: DaemonSet
 metadata: 
-  name: mateapp-deamonset
+  name: mateapp-daemonset
   namespace: mateapp
   labels:
     app: todoapp
@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: busybox-server
-          image: busyboxplus:curl
+          image: busyboxplus/curl
           command: ["sh", "-c", "curl http://localhost:8000/ && sleep 5"]
           resources:
             requests:
