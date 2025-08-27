@@ -3,6 +3,7 @@
 ## Prerequisites
 - Ensure you have access to a Kubernetes cluster.
 - `kubectl` is installed and configured to access your cluster.
+- kubectl create namespace mateapp || echo "namespace mateapp already exists"
 
 ## Deploying the DaemonSet
 
