@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: my-daemonset
+  namespace: mateapp
+  labels:
+    app: my-app
+spec:
+  selector:
+    matchLabels:
+      app: my-app
+  template:
+    metadata:
+      labels:
+        app: my-app
+    spec:
+      containers:
+      - name: busybox
+        image: busyboxplus:curl
+        resources:
+          limits:
+            memory: "64Mi"
+            cpu: "250m"
+          requests:
+            memory: "64Mi"
+            cpu: "250m"
+        command: ["/bin/sh", "-c"]
+        args:
+          - |
+            while true; do
+              curl http://todoapp-service; # Replace with your actual ClusterIP service name
+              sleep 5;
+            done    
