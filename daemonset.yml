@@ -1,0 +1,58 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: todoapp-monitor-daemonset
+  namespace: mateapp
+  labels:
+    app: todoapp-monitor
+    component: daemonset
+spec:
+  selector:
+    matchLabels:
+      app: todoapp-monitor
+      component: daemonset
+  template:
+    metadata:
+      labels:
+        app: todoapp-monitor
+        component: daemonset
+    spec:
+      containers:
+        - name: curl-monitor
+          image: busyboxplus:curl
+          # Команда выполняется каждые 5 секунд - делает curl запрос к ClusterIP сервису todoapp
+          command: ["/bin/sh"]
+          args:
+            - -c
+            - |
+              while true; do
+                echo "$(date): Making curl request to todoapp service"
+                curl -s -o /dev/null -w "HTTP Status: %{http_code}, Time: %{time_total}s\n" http://todoapp-service:8080/ || echo "Request failed"
+                sleep 5
+              done
+          resources:
+            requests:
+              memory: "32Mi"
+              cpu: "10m"
+            limits:
+              memory: "64Mi"
+              cpu: "50m"
+          # Проверки работоспособности контейнера
+          livenessProbe:
+            exec:
+              command:
+                - /bin/sh
+                - -c
+                - "pgrep -f curl"
+            initialDelaySeconds: 10
+            periodSeconds: 30
+          # Политика перезапуска - всегда перезапускать при сбое
+      restartPolicy: Always
+      # Tolerations позволяют поду запускаться на узлах с taint'ами
+      tolerations:
+        - key: node-role.kubernetes.io/master
+          operator: Exists
+          effect: NoSchedule
+        - key: node-role.kubernetes.io/control-plane
+          operator: Exists
+          effect: NoSchedule
