@@ -1,0 +1,77 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: todoapp-health-check
+  namespace: mateapp
+  labels:
+    app: todoapp-health-check
+    component: cronjob
+spec:
+  # Расписание: каждые 4 минуты (*/4 * * * *)
+  schedule: "*/4 * * * *"
+
+  # Политика параллельного выполнения - Allow (разрешить параллельное выполнение)
+  concurrencyPolicy: Allow
+
+  # История выполнения
+  successfulJobsHistoryLimit: 10 # Хранить 10 успешных выполнений
+  failedJobsHistoryLimit: 5 # Хранить 5 неудачных выполнений
+
+  # Время начала задания (если пропущено время запуска)
+  startingDeadlineSeconds: 100
+
+  jobTemplate:
+    metadata:
+      labels:
+        app: todoapp-health-check
+        component: cronjob-job
+    spec:
+      # Время жизни завершенного Job'а (автоматическое удаление через 1 час)
+      ttlSecondsAfterFinished: 3600
+
+      template:
+        metadata:
+          labels:
+            app: todoapp-health-check
+            component: cronjob-pod
+        spec:
+          containers:
+            - name: health-checker
+              image: busyboxplus:curl
+              # Команда выполняет curl запрос к /api/health endpoint
+              command: ["/bin/sh"]
+              args:
+                - -c
+                - |
+                  echo "$(date): Starting health check for todoapp"
+                  echo "Target URL: http://todoapp-service:8080/api/health"
+
+                  # Выполняем curl с подробным выводом и обработкой ошибок
+                  if curl -v -f --max-time 30 --retry 3 --retry-delay 5 \
+                     -H "User-Agent: K8s-HealthChecker/1.0" \
+                     http://todoapp-service:8080/api/health; then
+                    echo "$(date): Health check PASSED - Service is healthy"
+                    exit 0
+                  else
+                    echo "$(date): Health check FAILED - Service is unhealthy or unreachable"
+                    exit 1
+                  fi
+              resources:
+                requests:
+                  memory: "16Mi"
+                  cpu: "5m"
+                limits:
+                  memory: "32Mi"
+                  cpu: "20m"
+              # Переменные окружения для отладки
+              env:
+                - name: JOB_NAME
+                  value: "todoapp-health-check"
+                - name: CHECK_INTERVAL
+                  value: "4min"
+
+          # Политика перезапуска - OnFailure (перезапускать только при ошибке)
+          restartPolicy: OnFailure
+
+          # Ограничение времени выполнения пода (5 минут)
+          activeDeadlineSeconds: 300
