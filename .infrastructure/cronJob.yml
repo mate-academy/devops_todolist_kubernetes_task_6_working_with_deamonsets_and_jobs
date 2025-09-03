@@ -1,0 +1,30 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: hello-rusik
+  namespace: mateapp
+spec:
+  schedule: "*/4 * * * *"
+  concurrencyPolicy: Allow
+  startingDeadlineSeconds: 240
+  successfulJobsHistoryLimit: 10
+  failedJobsHistoryLimit: 5
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: hello-denchik
+            image: busyboxplus:curl
+            command:
+            - /bin/sh
+            - -c
+            - curl http://todoapp-service.mateapp.svc:8080/api/health
+            resources:
+              requests:
+                cpu: "50m"
+                memory: "50Mi"
+              limits:
+                cpu: "100m"
+                memory: "100Mi"
+          restartPolicy: OnFailure
