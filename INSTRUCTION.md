@@ -1,5 +1,10 @@
 ## Before start verify that all previous k8s manifests are applied
 
+## Verify that namespace mateapp exists. If not, use the command bellow to create this namespace:
+```shell
+    kubectl create namespace mateapp
+```
+
 ## To apply daemonset and cronjob manifests run the next commands:
 - ```kubectl apply -f daemonset.yml -n mateapp```
 - ```kubectl apply -f cronjob.yml -n mateapp```

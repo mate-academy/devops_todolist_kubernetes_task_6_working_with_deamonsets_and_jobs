@@ -13,6 +13,7 @@ spec:
     spec:
       template:
         spec:
+          restartPolicy: OnFailure
           containers:
             - name: busybox
               image: busyboxplus:curl
