@@ -6,8 +6,8 @@
 ```
 
 ## To apply daemonset and cronjob manifests run the next commands:
-- ```kubectl apply -f daemonset.yml -n mateapp```
-- ```kubectl apply -f cronjob.yml -n mateapp```
+- ```kubectl apply -f .infrastructure/daemonset.yml -n mateapp```
+- ```kubectl apply -f .infrastructure/cronjob.yml -n mateapp```
 
 ## Verify that daemonset works correctly:
 - run ```kubectl get pods -o wide -n mateapp``` to list all pods
