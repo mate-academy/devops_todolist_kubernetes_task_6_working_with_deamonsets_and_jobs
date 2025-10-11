@@ -27,5 +27,5 @@ spec:
               args:
                 - >
                   echo "Checking todoapp /api/health endpoint...";
-                  curl -s http://todoapp:80/api/health"
+                  curl -fsS http://todoapp:80/api/health
               restartPolicy: OnFailure
