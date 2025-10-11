@@ -1,10 +1,10 @@
 ## How to deploy DaemonSet and CronJob to the cluster.
 
 ### DaemonSet:
-    kubectl apply -f daemonset.yml -n mateapp
+    kubectl apply -f .infrastructure/daemonset.yml -n mateapp
 
 ### CronJob:
-    kubectl apply -f cronjob.yml -n mateapp
+    kubectl apply -f .infrastructure/cronjob.yml -n mateapp
 
 ## How to validate the solution.
 

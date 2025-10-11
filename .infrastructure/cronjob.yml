@@ -7,7 +7,7 @@ spec:
   schedule: "*/4 * * * *"
   concurrencyPolicy: Allow
   startingDeadlineSeconds: 30
-  successfulJobHistoryLimit: 10
+  successfulJobsHistoryLimit: 10
   failedJobsHistoryLimit: 5
   jobTemplate:
     spec:
@@ -15,7 +15,7 @@ spec:
         spec:
           containers:
             - name: health-check
-              image: radial/busyboxplus:curl
+              image: busyboxplus:curl
               resources:
                 requests:
                   cpu: "100m"
@@ -27,5 +27,5 @@ spec:
               args:
                 - >
                   echo "Checking todoapp /api/health endpoint...";
-                  curl -s http://todoapp-service/api/health || echo "Failed to reach todoapp"
+                  curl -s http://todoapp:80/api/health"
               restartPolicy: OnFailure
