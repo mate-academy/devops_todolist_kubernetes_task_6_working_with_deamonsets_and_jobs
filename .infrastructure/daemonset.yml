@@ -8,7 +8,7 @@ metadata:
 spec:
   selector:
     matchLabels:
-     app: todoapp
+      app: todoapp
   template:
     metadata:
       labels:
@@ -16,8 +16,8 @@ spec:
     spec:
       containers:
       - name: busyboxcurl
-        image: ikulyk404/busyboxplus:curl
-        command: ["sh", "-c", "curl http://todoapp-service.todoapp:80 && sleep 5"]
+        image: busyboxplus:curl
+        command: ["sh", "-c", "curl http://todoapp-service.mateapp:80 && sleep 5"]
         resources:
           requests:
             cpu: "100m"

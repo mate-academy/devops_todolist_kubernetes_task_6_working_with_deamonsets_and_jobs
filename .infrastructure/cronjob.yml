@@ -4,18 +4,18 @@ metadata:
   name: health-cronjob
   namespace: mateapp
 spec:
-  schedule: "*/4 * * * * *"
-  concurrencyPolicy: Allow
+  schedule: "*/4 * * * *"
+  concurrencyPolicy: On
   successfulJobHistoryLimit: 10
   failedJobsHistoryLimit: 5
-jobTemplate:
-  spec:
-    template:
-      spec:
-        containers:
-        - name: busybox-todoapp
-          image: ikulyk404/busyboxplus:curl
-          command:
-          - /bin/sh
-          - -c 
-          - curl http://todoapp-service.todoapp:80
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: busybox-todoapp
+            image: busyboxplus:curl
+            command:
+            - /bin/sh
+            - -c 
+            - curl http://todoapp-service.todoapp:80/api/health
