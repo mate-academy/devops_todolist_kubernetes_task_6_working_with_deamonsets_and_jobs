@@ -17,7 +17,7 @@ spec:
       containers:
       - name: busyboxcurl
         image: busyboxplus:curl
-        command: ["sh", "-c", "curl http://todoapp-service.mateapp:80 && sleep 5"]
+        command: ["while true; do curl http://todoapp-service.mateapp:80; sleep 5; done"]
         resources:
           requests:
             cpu: "100m"
