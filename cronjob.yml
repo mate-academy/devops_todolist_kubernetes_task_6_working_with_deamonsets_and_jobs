@@ -2,6 +2,7 @@ apiVersion: batch/v1
 kind: CronJob
 metadata:
   name: health-check-cronjob
+  namespace: mateapp
 spec:
   schedule: "*/4 * * * *"
   successfulJobsHistoryLimit: 10
