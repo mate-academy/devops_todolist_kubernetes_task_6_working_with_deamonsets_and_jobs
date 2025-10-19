@@ -18,7 +18,7 @@ spec:
             command:
             - /bin/sh
             - -c
-            - curl -f http://todoapp-service:8080/api/health
+            - curl -f http://todoapp-service/api/health
             resources:
               requests:
                 cpu: "100m"
