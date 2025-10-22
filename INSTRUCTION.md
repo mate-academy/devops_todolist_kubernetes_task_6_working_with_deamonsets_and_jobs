@@ -24,7 +24,7 @@ kubectl apply -f daemonset.yml -n mateapp
 
 Крок 2.2. Розгортання CronJob
 
-Застосуйте маніфест cronjob.yml, який запланує виконання перевірки стану Readiness Probe (/api/readiness/) кожні 4 хвилини.
+Застосуйте маніфест cronjob.yml, який запланує виконання перевірки стану ендпоінту /api/health кожні 4 хвилини.
 
 kubectl apply -f cronjob.yml -n mateapp
 
@@ -40,15 +40,15 @@ kubectl apply -f cronjob.yml -n mateapp
 kubectl get daemonset -n mateapp
 
 
-Перевірка Pods: Перегляньте список подів, створених DaemonSet.
+Перевірка Pods: Перегляньте список подів, створених DaemonSet, використовуючи правильний селектор app=health-checker.
 
-kubectl get pods -n mateapp -l app=todoapp-health-agent -o wide
+kubectl get pods -n mateapp -l app=health-checker -o wide
 
 
-Перевірка логів (Валідація виконання): Перегляньте логи одного з DaemonSet Pods, щоб підтвердити, що curl виконується кожні 5 секунд, і бачить статус SUCCESS.
+Перевірка логів (Валідація виконання): Перегляньте логи одного з DaemonSet Pods, щоб підтвердити, що curl виконується кожні 5 секунд.
 
-# Знаходимо ім'я першого Pod DaemonSet
-POD_NAME=$(kubectl get pods -n mateapp -l app=todoapp-health-agent -o jsonpath='{.items[0].metadata.name}')
+# Знаходимо ім'я першого Pod DaemonSet, використовуючи правильний селектор
+POD_NAME=$(kubectl get pods -n mateapp -l app=health-checker -o jsonpath='{.items[0].metadata.name}')
 
 # Перегляд логів в режимі реального часу (-f)
 kubectl logs $POD_NAME -n mateapp -f
@@ -56,7 +56,7 @@ kubectl logs $POD_NAME -n mateapp -f
 
 Крок 3.2. Валідація CronJob (Заплановане виконання)
 
-Перевірте, що CronJob створює Jobs, які успішно завершуються після перевірки Readiness Probe.
+Перевірте, що CronJob створює Jobs, які успішно завершуються після перевірки ендпоінту /api/health.
 
 Перевірка CronJob: Переконайтеся, що CronJob зареєстрований і має правильний розклад (*/4 * * * *).
 
@@ -68,7 +68,7 @@ kubectl get cronjobs -n mateapp -o wide
 kubectl get jobs -n mateapp
 
 
-Перевірка логів (Валідація виконання): Знайдіть останній успішно виконаний Job і перегляньте його логи, щоб підтвердити успішний виклик /api/readiness/.
+Перевірка логів (Валідація виконання): Знайдіть останній успішно виконаний Job і перегляньте його логи, щоб підтвердити успішний виклик /api/health.
 
 # Отримання імені останнього Job, створеного CronJob
 JOB_NAME=$(kubectl get jobs -n mateapp --sort-by=.metadata.creationTimestamp -o jsonpath='{.items[-1:].metadata.name}')
@@ -77,4 +77,4 @@ JOB_NAME=$(kubectl get jobs -n mateapp --sort-by=.metadata.creationTimestamp -o 
 kubectl logs -n mateapp $JOB_NAME
 
 
-Ви маєте побачити повідомлення Readiness Check SUCCESS (Status: 200) або подібне, залежно від того, як ви налаштували логи в cronjob.yml.
+Ви маєте побачити повідомлення про успішну перевірку стану (наприклад, Status: 200).
