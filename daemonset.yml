@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: todoapp-daemon-checker
+  namespace: mateapp
+  labels:
+    app: health-checker
+spec:
+  selector:
+    matchLabels:
+      app: health-checker
+  template:
+    metadata:
+      labels:
+        app: health-checker
+    spec:
+      tolerations:
+      # Додано toleration для запуску на master-нодах, якщо це потрібно для системних чеків
+      - key: "node-role.kubernetes.io/control-plane"
+        operator: "Exists"
+        effect: "NoSchedule"
+      containers:
+      - name: daemon-curl-runner
+        image: busyboxplus:curl
+        # Головна команда, яка виконується кожні 5 секунд
+        command: ["/bin/sh", "-c"]
+        args:
+        - while true; do
+          curl -s http://todoapp/api/liveness;
+          echo "Status check complete. Waiting 5s...";
+          sleep 5;
+          done
+        resources:
+          requests: # Ресурси згідно вимог
+            cpu: "10m"
+            memory: "16Mi"
+          limits:
+            cpu: "50m"
+            memory: "32Mi"
+      # Використовуємо Always, але оскільки це постійний цикл, він завжди Running
+      restartPolicy: Always

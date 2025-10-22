@@ -1,0 +1,35 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: todoapp-cron-health
+  namespace: mateapp
+spec:
+  # Виконується кожні 4 хвилини
+  schedule: "*/4 * * * *"
+  # concurrencyPolicy встановлено на Allow
+  concurrencyPolicy: Allow 
+  # Обмеження історії успішних та невдалих запусків
+  successfulJobsHistoryLimit: 10 
+  failedJobsHistoryLimit: 5 
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: cron-curl-runner
+            image: busyboxplus:curl
+            command: ["/bin/sh", "-c"]
+            # Команда для виклику /api/health
+            args:
+            - echo "Starting health check..." && 
+              curl -s http://todoapp/api/health && 
+              echo "Health check finished."
+            resources:
+              requests: # Ресурси згідно вимог
+                cpu: "20m"
+                memory: "32Mi"
+              limits:
+                cpu: "100m"
+                memory: "64Mi"
+          # Завдання має завершитися, тому OnFailure або Never
+          restartPolicy: OnFailure
