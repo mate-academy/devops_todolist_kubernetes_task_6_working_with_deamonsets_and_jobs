@@ -17,10 +17,10 @@ kubectl apply -f .infrastructure/daemonset.yml
 kubectl apply -f .infrastructure/cronjob.yml
 ```
 
-After applying, you can check the status of the pods in the todoapp namespace:
+After applying, you can check the status of the pods in the mateapp namespace:
 
 ```bash
-kubectl get pods -n todoapp -o wide
+kubectl get pods -n mateapp -o wide
 ```
 
 ## Check the DaemonSet controller
