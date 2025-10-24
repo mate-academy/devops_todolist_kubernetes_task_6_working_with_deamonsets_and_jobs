@@ -28,6 +28,7 @@ spec:
                 echo "--------------------------------------------------"
                 echo "Pinging todoapp service..."
                 curl -s http://todoapp-service.mateapp.svc.cluster.local:80/api/health || echo "Service unavailable"
+                echo
                 echo "--------------------------------------------------"
                 sleep 5
               done

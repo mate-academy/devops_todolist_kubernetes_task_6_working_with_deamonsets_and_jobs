@@ -1,0 +1,35 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: busyboxplus-cron
+  namespace: mateapp
+  labels:
+    app: busyboxplus-cron
+spec:
+  schedule: "*/4 * * * *"
+  concurrencyPolicy: Allow
+  successfulJobsHistoryLimit: 10
+  failedJobsHistoryLimit: 5
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+            - name: busyboxplus
+              image: ikulyk404/busyboxplus:curl
+              command:
+                - /bin/sh
+                - -c
+                - |
+                  ##########################################################
+                  # Ping the todoapp service
+                  ##########################################################
+                  curl -s http://todoapp-service.mateapp.svc.cluster.local:80/api/health || echo "Service unavailable"
+              resources:
+                requests:
+                  cpu: "50m"
+                  memory: "50Mi"
+                limits:
+                  cpu: "100m"
+                  memory: "100Mi"
+          restartPolicy: OnFailure
