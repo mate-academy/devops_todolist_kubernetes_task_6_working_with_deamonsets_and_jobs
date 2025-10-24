@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: busyboxplus-deamonset
+  namespace: mateapp
+  labels:
+    app: busyboxplus-deamonset
+spec:
+  selector:
+    matchLabels:
+      app: busyboxplus
+  template:
+    metadata:
+      labels:
+        app: busyboxplus
+    spec:
+      containers:
+        - name: busyboxplus
+          image: ikulyk404/busyboxplus:curl
+          command:
+            - /bin/sh
+            - -c
+            - |
+              ##########################################################
+              # Repeatedly ping the todoapp service every 5 seconds
+              ##########################################################
+              while true; do
+                echo "--------------------------------------------------"
+                echo "Pinging todoapp service..."
+                curl -s http://todoapp-service.mateapp.svc.cluster.local:80/api/health || echo "Service unavailable"
+                echo
+                echo "--------------------------------------------------"
+                sleep 5
+              done
+          resources:
+            requests:
+              cpu: "50m"
+              memory: "50Mi"
+            limits:
+              cpu: "100m"
+              memory: "100Mi"
+
