@@ -74,8 +74,8 @@ kubectl get cronjobs -n mateapp
 # List Jobs created by the CronJob
 kubectl get jobs -n mateapp
 
-# List pods created by those jobs
-kubectl get pods -n mateapp -l job-name
+# List pods created by jobs
+kubectl get pods -n mateapp
 ```
 
 To check logs from the latest job pod:
