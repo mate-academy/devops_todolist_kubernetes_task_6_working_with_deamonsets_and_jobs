@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: todoapp
-        image: busybox:curl
+        image: busyboxplus:curl
         resources:
           requests:
             cpu: "100m"
