@@ -14,7 +14,7 @@ spec:
         spec:
           containers:
           - name: health-curl
-            image: ikulyk404/busyboxplus:curl
+            image: busyboxplus:curl
             command: ["curl", "-s", "http://todoapp-internal.mateapp.svc.cluster.local/api/health"]
             resources:
               requests:

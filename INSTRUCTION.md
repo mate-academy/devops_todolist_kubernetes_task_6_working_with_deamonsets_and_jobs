@@ -18,22 +18,35 @@ Ensure that the `todoapp` is running and exposed via a ClusterIP service named `
     ```
     This will register a scheduled task. The first pod will spawn at the next 4-minute mark (e.g., 12:00, 12:04, 12:08).
 
+---
+
 ## 2. Verification
 
-* **Check DaemonSet:**
+### Checking DaemonSet
+1.  Verify that DaemonSet pods are running:
     ```bash
     kubectl get ds -n mateapp
-    # Check logs of one of the pods to see the curls happening every 5s
+    ```
+2.  Check the logs to see the loop executing every 5 seconds:
+    ```bash
     kubectl logs -l app=curl-daemon -n mateapp --tail=10 -f
     ```
 
-* **Check CronJob:**
+### Checking CronJob
+1.  Wait for at least 4 minutes for the first job to trigger.
+2.  List the pods created by the CronJob:
     ```bash
-    kubectl get cronjob -n mateapp
-    # Wait for 4 minutes, then check if Jobs/Pods were created
-    kubectl get jobs -n mateapp
     kubectl get pods -n mateapp | grep health-checker
     ```
+    *You should see pods with names like `health-checker-28345920-xxxxx` and status `Completed`.*
+
+3.  **Check the logs of a completed job:**
+    Copy the name of one of the completed pods from the previous step and run:
+    ```bash
+    kubectl logs <pod-name> -n mateapp
+    ```
+    *Example:* `kubectl logs health-checker-28345920-abcde -n mateapp`
+    *Expected Output:* You should see the HTML/JSON response from the `curl` command or an empty output if the server returned 200 OK silently (add `-v` to curl in manifest if you need verbose output).
 
 ---
 

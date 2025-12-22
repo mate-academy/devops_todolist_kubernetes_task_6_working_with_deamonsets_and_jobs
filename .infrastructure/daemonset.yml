@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: busybox-curl
-        image: ikulyk404/busyboxplus:curl
+        image: busyboxplus:curl
         command: ["/bin/sh", "-c", "while true; do curl -s http://todoapp-internal.mateapp.svc.cluster.local; sleep 5; done"]
         resources:
           requests:
