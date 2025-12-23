@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: todoapp
+  namespace: mateapp
+  labels:
+    app: todoapp
+spec:
+  selector:
+    matchLabels:
+      app: daemonset-server
+  template:
+    metadata:
+      labels:
+        app: daemonset-server
+    spec:
+      containers:
+      - name: busybox-server
+        image: ikulyk404/busyboxplus:curl
+        command: ["sh", "-c", "while sleep 5; do curl todoapp-service.todoapp.svc.cluster.local; done"]
+        resources:
+          requests:
+            cpu: "100m"
+            memory: "100Mi"
+          limits:
+            cpu: "200m"
+            memory: "200Mi"
+        ports:
+        - containerPort: 80
+          hostPort: 30008
+
+
