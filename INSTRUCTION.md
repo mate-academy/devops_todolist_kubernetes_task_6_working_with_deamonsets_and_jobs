@@ -5,9 +5,7 @@
 # Verify cluster access
 kubectl cluster-info
 
-# (Optional) Create namespaces if they do not exist
-kubectl create namespace todoapp || true
-kubectl create namespace mateapp || true
+
 
 
 # =========================
@@ -18,10 +16,10 @@ kubectl create namespace mateapp || true
 kubectl apply -f daemonset.yml
 
 # Verify DaemonSet creation
-kubectl get daemonset -n todoapp
+kubectl get daemonset -n mateapp
 
 # Verify DaemonSet Pods
-kubectl get pods -n todoapp -l app=todoapp
+kubectl get pods -n mateapp -l app=mateapp
 
 
 # Deploy CronJob
@@ -38,10 +36,10 @@ kubectl get cronjob -n mateapp
 # ---- DaemonSet validation ----
 
 # Check DaemonSet Pods status
-kubectl get pods -n todoapp -l app=todoapp
+kubectl get pods -n mateapp -l app=mateapp
 
 # View logs from all DaemonSet Pods
-kubectl logs -n todoapp -l app=todoapp --tail=50
+kubectl logs -n mateapp -l app=mateapp --tail=50
 
 # Expected:
 # - Logs contain curl output
