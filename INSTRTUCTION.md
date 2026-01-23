@@ -43,10 +43,10 @@ kubectl logs todoapp-deamonset-<id> -n mateapp
 3. Validate cronjob runs and logs:
 
 ```
-kubectl get jobs -n mateapp
+kubectl get pods -n mateapp
 ```
 
-in the list of jobs find cronjob's jobs and call command
+in the list of pods find cronjob's pod and call command
 
 ```
 kubectl logs todoapp-cronjob-<id> -n mateapp
