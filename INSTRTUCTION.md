@@ -49,5 +49,5 @@ kubectl get pods -n mateapp
 in the list of pods find cronjob's pod and call command
 
 ```
-kubectl logs todoapp-cronjob-<id> -n mateapp
+kubectl logs todoapp-cronjob-<job-id>-<pod-hash> -n mateapp
 ```
