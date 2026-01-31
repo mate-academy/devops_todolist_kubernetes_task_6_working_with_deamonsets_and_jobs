@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: todoapp-daemonset
+  namespace: mateapp
+spec:
+  selector:
+    matchLabels:
+      app: todoapp-daemon
+  template:
+    metadata:
+      labels:
+        app: todoapp-daemon
+    spec:
+      containers:
+      - name: busybox
+        image: ikulyk404/busyboxplus:curl
+        resources:
+          requests:
+            cpu: "100m"
+            memory: "100Mi"
+          limits:
+            cpu: "200m"
+            memory: "200Mi"
+        command: ["/bin/sh", "-c"]
+        args:
+          - |
+            while true; do
+              echo "[$(date)] DaemonSet ping todoapp-service";
+              curl -sS http://todoapp-service/api/health || echo "request failed";
+              sleep 5;
+            done
+
+
+
