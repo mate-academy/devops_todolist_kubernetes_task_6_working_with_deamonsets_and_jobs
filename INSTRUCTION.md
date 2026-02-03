@@ -3,9 +3,9 @@
 ### Follow these steps to deploy the resources to the Kubernetes cluster.
 
 #### 1. Deploy the DaemonSet
-`kubectl apply -f daemonset.yml`
+`kubectl apply -f .infrastructure/daemonset.yml`
 #### 2. Deploy the CronJob
-`kubectl apply -f cronjob.yml`
+`kubectl apply -f .infrastructure/cronjob.yml`
 
 ### ✅ Solution Validation
 After deployment, verify that the resources are running correctly by checking the logs.
@@ -18,7 +18,7 @@ Check the status of the DaemonSet and its pods:
 
 #### View DaemonSet logs:
 
-`kubectl logs <daemonset-app>`
+`kubectl logs <DAEMONSET_POD_NAME>`
 
 #### 2. Validate CronJob
 Verify that the CronJob is scheduled and check the logs of the executed jobs:
