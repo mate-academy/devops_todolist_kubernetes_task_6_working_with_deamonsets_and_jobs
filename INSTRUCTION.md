@@ -18,7 +18,7 @@ kubectl get pods -n mateapp -l app=todoapp-curl-daemon -o wide
 Check logs (there should be repeated requests every ~5 seconds):
 
 ```bash
-kubectl logs -n mateapp -l app=todoapp-curl-daemon --tail=30
+kubectl logs -n mateapp -l app=todoapp-curl-daemon --since=2m --tail=30
 ```
 
 ## 3. Validate CronJob
@@ -47,3 +47,5 @@ For scheduled runs, find the latest Job and view logs:
 kubectl get jobs -n mateapp --sort-by=.metadata.creationTimestamp
 kubectl logs -n mateapp job/<latest-job-name>
 ```
+
+Note: `*.svc.cluster.local` addresses are internal Kubernetes DNS names and are not expected to open in a host browser.
