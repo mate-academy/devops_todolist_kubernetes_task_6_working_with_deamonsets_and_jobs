@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+ name: busybox-daemon
+ namespace: mateapp
+ labels:
+   app: busybox-daemon
+spec:
+ selector:
+   matchLabels:
+     app: busybox-daemon
+ template:
+   metadata:
+     labels:
+       app: busybox-daemon
+   spec:
+     containers:
+     - name: busybox-daemon
+       image: busyboxplus:curl
+       command:
+         - "/bin/sh"
+         - "-c"
+         - "while true; do curl -v http://todoapp-service.mateapp.svc.cluster.local:80/api/health; sleep 5; done"
+       resources:
+         requests:
+           cpu: "100m"
+           memory: "100Mi"
+         limits:
+           cpu: "200m"
+           memory: "200Mi"
+       ports:
+       - containerPort: 80
+
