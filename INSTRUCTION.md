@@ -48,4 +48,4 @@ kubectl get jobs -n mateapp --sort-by=.metadata.creationTimestamp
 kubectl logs -n mateapp job/<latest-job-name>
 ```
 
-Note: `*.svc.cluster.local` addresses are internal Kubernetes DNS names and are not expected to open in a host browser.
+Note: these manifests use `TODOAPP_SERVICE_SERVICE_HOST` / `TODOAPP_SERVICE_SERVICE_PORT` (service links) to call the `todoapp-service` ClusterIP directly, so validation does not depend on cluster DNS domain suffix.

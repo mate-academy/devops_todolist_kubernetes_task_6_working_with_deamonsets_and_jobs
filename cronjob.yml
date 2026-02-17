@@ -25,7 +25,7 @@ spec:
             args:
             - |
               date
-              curl -sS -f http://todoapp-service.mateapp.svc/api/health
+              curl -sS -f "http://${TODOAPP_SERVICE_SERVICE_HOST}:${TODOAPP_SERVICE_SERVICE_PORT}/api/health"
             resources:
               requests:
                 cpu: "50m"

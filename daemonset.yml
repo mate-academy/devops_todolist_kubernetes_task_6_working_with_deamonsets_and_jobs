@@ -22,7 +22,7 @@ spec:
         - |
           while true; do
             date
-            curl -sS http://todoapp-service.mateapp.svc > /dev/null || true
+            curl -sS "http://${TODOAPP_SERVICE_SERVICE_HOST}:${TODOAPP_SERVICE_SERVICE_PORT}" > /dev/null || true
             sleep 5
           done
         resources:
