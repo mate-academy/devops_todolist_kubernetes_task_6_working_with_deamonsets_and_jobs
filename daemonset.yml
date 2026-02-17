@@ -16,13 +16,13 @@ spec:
     spec:
       containers:
       - name: curl-runner
-        image: busyboxplus:curl
+        image: radial/busyboxplus:curl
         command: ["/bin/sh", "-c"]
         args:
         - |
           while true; do
             date
-            curl -sS http://todoapp-service.mateapp.svc.cluster.local > /dev/null || true
+            curl -sS http://todoapp-service.todoapp.svc.cluster.local > /dev/null || true
             sleep 5
           done
         resources:

@@ -20,12 +20,12 @@ spec:
           restartPolicy: OnFailure
           containers:
           - name: curl-runner
-            image: busyboxplus:curl
+            image: radial/busyboxplus:curl
             command: ["/bin/sh", "-c"]
             args:
             - |
               date
-              curl -sS -f http://todoapp-service.mateapp.svc.cluster.local/api/health
+              curl -sS -f http://todoapp-service.todoapp.svc.cluster.local/api/health
             resources:
               requests:
                 cpu: "50m"
