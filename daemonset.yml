@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: curl-runner
-        image: busyboxplus:curl
+        image: radial/busyboxplus:curl
         command: ["/bin/sh", "-c"]
         args:
         - |

@@ -48,4 +48,5 @@ kubectl get jobs -n mateapp --sort-by=.metadata.creationTimestamp
 kubectl logs -n mateapp job/<latest-job-name>
 ```
 
-Note: these manifests use `TODOAPP_SERVICE_SERVICE_HOST` / `TODOAPP_SERVICE_SERVICE_PORT` (service links) to call the `todoapp-service` ClusterIP directly, so validation does not depend on cluster DNS domain suffix.
+Note: these manifests use `TODOAPP_SERVICE_SERVICE_HOST` / `TODOAPP_SERVICE_SERVICE_PORT` (service links) 
+to call the `todoapp-service` ClusterIP directly, so validation does not depend on cluster DNS domain suffix.
