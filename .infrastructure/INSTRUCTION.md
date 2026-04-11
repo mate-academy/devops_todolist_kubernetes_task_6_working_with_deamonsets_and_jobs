@@ -3,11 +3,19 @@
 ## Deployment
 To deploy the manifests to your Kubernetes cluster, execute the following commands from your terminal:
 ```
+# Create the namespace (if not already present)
+kubectl apply -f - <<EOF
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: mateapp
+EOF
+
 # Deploy the CronJob
-kubectl apply -f cronjob.yml
+kubectl apply -f .infrastructure/cronjob.yml
 
 # Deploy the DaemonSet
-kubectl apply -f daemonset.yml
+kubectl apply -f .infrastructure/daemonset.yml
 ```
 ## Validation
 ### 1. Verify Resources

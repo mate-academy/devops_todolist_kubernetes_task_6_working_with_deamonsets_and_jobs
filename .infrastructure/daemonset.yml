@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: todo-curl-container
-        image: radial/busyboxplus:curl
+        image: busyboxplus:curl
         command: ["sh", "-c", "while true; do curl -sf todoapp:80/api/health; sleep 5; done"]
         resources:
           requests:

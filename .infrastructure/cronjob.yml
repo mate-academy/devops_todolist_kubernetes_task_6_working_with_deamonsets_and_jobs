@@ -14,7 +14,7 @@ spec:
         spec:
           containers:
           - name: health-status
-            image: radial/busyboxplus:curl
+            image: busyboxplus:curl
             resources:
               requests:
                 memory: "64Mi"
@@ -26,5 +26,5 @@ spec:
             - /bin/sh
             - -c
             - |
-              curl -sf todoapp:80/api/health && echo "Check successful"
+              curl -sf todoapp:80/api/health && echo "Success"
           restartPolicy: OnFailure
