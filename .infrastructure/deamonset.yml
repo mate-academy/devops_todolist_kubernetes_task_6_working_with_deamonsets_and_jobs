@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: kube2py
+  namespace: mateapp
+spec:
+  selector:
+    matchLabels:
+      app: kube2py
+  template:
+    metadata:
+      labels:
+        app: kube2py
+    spec:
+      containers:
+      - name: curl
+        image: curlimages/curl:latest
+        resources:
+          requests:
+            memory: "32Mi"
+            cpu: "100m"
+          limits:
+            memory: "64Mi"
+            cpu: "200m"
+        command: ["/bin/sh", "-c"]
+        args:
+          - while true; do curl http://todoapp-service.mateapp.svc.cluster.local/api/health; sleep 5; done
