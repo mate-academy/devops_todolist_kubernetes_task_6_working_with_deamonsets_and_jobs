@@ -24,6 +24,6 @@ spec:
                 cpu: "200m"
             command: ["/bin/sh", "-c"]
             args:
-              - curl http://todoapp-service.todoapp.svc.cluster.local/api/health
+              - curl http://todoapp-service.mateapp.svc.cluster.local/api/health
           restartPolicy: OnFailure
 

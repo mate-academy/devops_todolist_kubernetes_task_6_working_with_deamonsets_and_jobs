@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: curl
-        image: curlimages/curl:latest
+        image: busyboxplus:curl
         resources:
           requests:
             memory: "32Mi"
