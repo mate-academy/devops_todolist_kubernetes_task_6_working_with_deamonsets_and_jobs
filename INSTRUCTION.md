@@ -18,10 +18,9 @@ CronJob should run every 4 minutes and keep 10 successful / 5 failed jobs in his
 
 
 
-Але попередньо виправ помилки в файлах:
-1. **daemonset.yml** — образ `busyboxplus:curl` замість `curlimages/curl:latest`
+
+1. **daemonset.yml** — image `busyboxplus:curl` / `curlimages/curl:latest`
 2. **service.yml** — namespace `mateapp`, targetPort `8000`
 3. **cronjob.yml** — URL `todoapp-service.mateapp.svc.cluster.local`
 
 
-Потім задеплоїш і перевіриш логи!
