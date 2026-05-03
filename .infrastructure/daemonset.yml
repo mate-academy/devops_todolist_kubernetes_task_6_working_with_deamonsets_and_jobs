@@ -17,8 +17,8 @@ spec:
       containers:
         - name: busyboxcurl
           image: ikulyk404/busyboxplus:curl
-          command: ["watch"]
-          args: ["-n" , "5", "curl", "http://todoapp-service.todoapp.svc.cluster.local:80"]
+          command: ["sh"]
+          args: ["-c" , "'while true; do curl http://todoapp-service.todoapp.svc.cluster.local:80; sleep 5; done'"]
           resources:
             requests:
               cpu: "100m"
