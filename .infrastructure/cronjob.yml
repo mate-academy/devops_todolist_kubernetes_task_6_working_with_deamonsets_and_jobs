@@ -1,0 +1,29 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: curl-cronjob
+  namespace: mateapp
+spec:
+  schedule: "*/4 * * * *"
+  successfulJobsHistoryLimit: 10
+  failedJobsHistoryLimit: 5
+  startingDeadlineSeconds: 10
+  concurrencyPolicy: Allow
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+            - name: curl-healthcheck
+              image: curlimages/curl:latest
+              command: ["bin/sh", "-c"]
+              args:
+                - curl -f http://mateapp-service.mateapp.svc.cluster.local:80/api/health
+          resources:
+            requests:
+              memory: "100Mi"
+              cpu: "100m"
+            limits:
+              memory: "200Mi"
+              cpu: "200m"
+          restartPolicy: OnFailure
