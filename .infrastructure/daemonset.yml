@@ -16,12 +16,12 @@ spec:
     spec:
       containers:
         - name: curl
-          image: busyboxplus:curl
-          command: ["bin/sh", "-c"]
+          image: curlimages/curl
+          command: ["/bin/sh", "-c"]
           args:
             - |
               while true; do
-                curl http://mateapp-service.mateapp.svc.cluster.local:80
+                curl -s http://mateapp-service.mateapp.svc.cluster.local:80
                 sleep 5
               done
           resources:
