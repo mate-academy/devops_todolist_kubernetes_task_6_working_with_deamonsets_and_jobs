@@ -17,7 +17,7 @@ spec:
           restartPolicy: OnFailure
           containers:
             - name: busybox
-              image: curlimages/curl:latest
+              image: busyboxplus:curl
               command:
                 - /bin/sh
                 - -c

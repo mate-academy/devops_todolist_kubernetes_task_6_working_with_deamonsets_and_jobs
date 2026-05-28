@@ -21,7 +21,7 @@ kubectl get pods -n mateapp
 View daemonset logs:
 
 ```bash id="y8c4fw"
-kubectl logs -n mateapp -l app=todoapp-daemon
+kubectl logs -n mateapp -l app=mate-server
 ```
 
 ---
@@ -73,7 +73,7 @@ DaemonSet should:
 Example:
 
 ```bash id="a5j3xe"
-kubectl logs -n mateapp -l app=todoapp-daemon
+kubectl logs -n mateapp -l app=mate-server
 ```
 
 ---
