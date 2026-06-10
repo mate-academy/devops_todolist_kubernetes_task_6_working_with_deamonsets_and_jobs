@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: CronJob
+metadata:
+  name: busybox-job
+  namespace: mateapp
+  labels:
+    app: busybox-job
+spec:
+  schedule: "*/4 * * * *"
+  successfulJobsHistoryLimit: 10
+  failedJobsHistoryLimit: 5
+  concurrencyPolicy: Allow
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: busybox
+            image: busyboxplus:curl
+            command: ["sh", "-c", "curl http://todoapp.mateapp.svc.cluster.local/api/health"]
+            resources:
+              requests:
+                cpu: "100m"
+                memory: "100Mi"
+              limits:
+                cpu: "200m"
+                memory: "200Mi"
+          restartPolicy: OnFailure
