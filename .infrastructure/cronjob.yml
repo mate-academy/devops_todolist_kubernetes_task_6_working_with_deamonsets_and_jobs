@@ -16,8 +16,8 @@ spec:
         spec:
           containers:
           - name: busybox
-            image: nikulyk404/busyboxplus:curl
-            command: ["sh", "curl http://todoapp.mateapp.svc.cluster.local/api/health"]
+            image: busyboxplus:curl
+            command: ["sh", "-c", "curl http://todoapp.mateapp.svc.cluster.local/api/health"]
             resources:
               requests:
                 cpu: "100m"
