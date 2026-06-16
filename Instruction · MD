@@ -1,0 +1,118 @@
+# Deployment Instructions
+
+## Prerequisites
+
+- `kubectl` installed and configured to connect to your cluster
+- Access to the `mateapp` namespace (or cluster-admin rights to create it)
+
+---
+
+## Deployment Order
+
+> **Important:** follow this order strictly — the todoapp Service must exist before the DaemonSet and CronJob are applied, otherwise all `curl` calls will fail with DNS resolution errors.
+
+### Step 1 — Create the namespace
+
+```bash
+kubectl create namespace mateapp
+```
+
+### Step 2 — Deploy the TodoApp Pod and ClusterIP Service
+
+```bash
+kubectl apply -f todoapp.yml
+```
+
+Wait until the Pod is `Running`:
+
+```bash
+kubectl get pod todoapp -n mateapp
+```
+
+Verify the Service was created:
+
+```bash
+kubectl get service todoapp -n mateapp
+```
+
+Expected output:
+```
+NAME       TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)   AGE
+todoapp    ClusterIP   10.x.x.x        <none>        80/TCP    10s
+```
+
+### Step 3 — Deploy the DaemonSet
+
+```bash
+kubectl apply -f daemonset.yml
+```
+
+### Step 4 — Deploy the CronJob
+
+```bash
+kubectl apply -f cronjob.yml
+```
+
+---
+
+## Validation
+
+### Validate TodoApp
+
+Confirm the Pod is running and the Service is reachable:
+
+```bash
+kubectl get pod todoapp -n mateapp
+kubectl get service todoapp -n mateapp
+```
+
+### Validate DaemonSet
+
+Check that a pod is scheduled on every node:
+
+```bash
+kubectl get daemonset -n mateapp
+kubectl get pods -n mateapp -l app=todoapp-curl-daemonset -o wide
+```
+
+Stream logs from a DaemonSet pod — you should see curl output every ~5 seconds:
+
+```bash
+kubectl logs -n mateapp -l app=todoapp-curl-daemonset -f
+```
+
+Expected output (repeated every 5 seconds):
+```
+<!DOCTYPE html>...   (or JSON response from todoapp)
+```
+
+### Validate CronJob
+
+Check the CronJob status and last schedule time:
+
+```bash
+kubectl get cronjob todoapp-health-cronjob -n mateapp
+```
+
+List Jobs created by the CronJob (a new one appears every 4 minutes):
+
+```bash
+kubectl get jobs -n mateapp
+```
+
+View logs from the latest CronJob pod:
+
+```bash
+kubectl logs -n mateapp -l app=todoapp-health-cronjob
+```
+
+Expected output:
+```json
+{"status":"ok"}
+```
+
+Verify history limits — at most 10 successful and 5 failed jobs are retained:
+
+```bash
+kubectl get jobs -n mateapp
+```
