@@ -1,0 +1,103 @@
+# Deployment Instructions
+
+## Prerequisites
+
+- `kubectl` installed and configured to connect to your cluster
+- The `mateapp` namespace exists in the cluster
+- The `todoapp` ClusterIP service is running in the `mateapp` namespace
+
+### Create the namespace (if it doesn't exist)
+
+```bash
+kubectl create namespace mateapp
+```
+
+---
+
+## Deploy DaemonSet
+
+Apply the DaemonSet manifest:
+
+```bash
+kubectl apply -f daemonset.yml
+```
+
+Verify the DaemonSet is running on all nodes:
+
+```bash
+kubectl get daemonset -n mateapp
+```
+
+---
+
+## Deploy CronJob
+
+Apply the CronJob manifest:
+
+```bash
+kubectl apply -f cronjob.yml
+```
+
+Verify the CronJob was created:
+
+```bash
+kubectl get cronjob -n mateapp
+```
+
+---
+
+## Validation
+
+### Validate DaemonSet
+
+Check that a pod is scheduled on every node:
+
+```bash
+kubectl get pods -n mateapp -l app=todoapp-curl-daemonset -o wide
+```
+
+View logs from a DaemonSet pod to confirm `curl` is executing every 5 seconds:
+
+```bash
+# Get the pod name
+kubectl get pods -n mateapp -l app=todoapp-curl-daemonset
+
+# Stream logs from one of the pods
+kubectl logs -n mateapp -l app=todoapp-curl-daemonset -f
+```
+
+Expected output: repeated curl responses from the todoapp every ~5 seconds.
+
+---
+
+### Validate CronJob
+
+Check the CronJob status and last schedule time:
+
+```bash
+kubectl get cronjob -n mateapp todoapp-health-cronjob
+```
+
+List Jobs created by the CronJob:
+
+```bash
+kubectl get jobs -n mateapp -l app=todoapp-health-cronjob
+```
+
+View logs from the most recently completed CronJob pod:
+
+```bash
+# Get completed pod name
+kubectl get pods -n mateapp -l app=todoapp-health-cronjob
+
+# View logs
+kubectl logs -n mateapp -l app=todoapp-health-cronjob
+```
+
+Expected output: a response from `/api/health` endpoint of the todoapp (e.g. `{"status":"ok"}`).
+
+Check history limits (10 successful, 5 failed) are respected:
+
+```bash
+kubectl get jobs -n mateapp
+```
