@@ -1,0 +1,23 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: my-cronjob
+  namespace: mateapp
+spec:
+  schedule: "* * * * *"
+  concurrencyPolicy: Allow
+  startingDeadlineSeconds: 100
+  successfulJobsHistoryLimit: 10
+  failedJobsHistoryLimit: 5
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: busyboxplus-cronjob
+            image: ikulyk404/busyboxplus:curl
+            command:
+            - /bin/sh
+            - -c
+            - date; echo Hello from the Kubernetes cluster
+          restartPolicy: OnFailure
