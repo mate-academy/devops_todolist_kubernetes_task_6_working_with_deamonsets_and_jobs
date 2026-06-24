@@ -19,7 +19,7 @@ spec:
         image: ikulyk404/busyboxplus:curl
         command: ["/bin/sh", "-c"]
         args:
-          - while true; do curl -s http://todoapp-service.todoapp.svc.cluster.local/api/; sleep 5; done
+          - while true; do echo "Request at $(date)"; curl -v http://todoapp-service.todoapp.svc.cluster.local/api/; sleep 5; done
         resources:
           requests:
             cpu: "100m"
@@ -29,5 +29,6 @@ spec:
             memory: "200Mi"
         ports:
         - containerPort: 80
+          hostPort: 30009
           
 

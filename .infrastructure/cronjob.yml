@@ -4,7 +4,7 @@ metadata:
   name: my-cronjob
   namespace: mateapp
 spec:
-  schedule: "* * * * *"
+  schedule: "*/4 * * * *"
   concurrencyPolicy: Allow
   startingDeadlineSeconds: 100
   successfulJobsHistoryLimit: 10
@@ -19,5 +19,12 @@ spec:
             command:
             - /bin/sh
             - -c
-            - date; echo Hello from the Kubernetes cluster
+            - curl -v http://todoapp-service.todoapp.svc.cluster.local/api/health
+            resources:
+              requests:
+                cpu: "100m"
+                memory: "100Mi"
+              limits:
+                cpu: "200m"
+                memory: "200Mi"
           restartPolicy: OnFailure
