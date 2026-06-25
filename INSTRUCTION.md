@@ -1,5 +1,7 @@
-1. How to deploy daemonset.yml and cronjob.yml to the cluster.
+I used image: ikulyk404/busyboxplus:curl because busyboxplus:curl image doesn't excist.
+that's why pods didn't start.
 Need run commands:
+cd .infrastructure
 kubectl apply -f daemonset.yml
 kubectl apply -f cronjob.yml
 
