@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: todoapp-pinger
+  namespace: mateapp
+  labels:
+    app: todoapp-pinger
+spec:
+  selector:
+    matchLabels:
+      app: todoapp-pinger
+  template:
+    metadata:
+      labels:
+        app: todoapp-pinger
+    spec:
+      containers:
+      - name: curl-container
+        image: busyboxplus:curl
+
+        command:
+        - /bin/sh
+        - -c
+        - "while true; do curl -s http://todoapp/api/health; sleep 5; done"
+
+        resources:
+          requests:
+            cpu: "10m"
+            memory: "16Mi"
+          limits:
+            cpu: "50m"
+            memory: "32Mi"
