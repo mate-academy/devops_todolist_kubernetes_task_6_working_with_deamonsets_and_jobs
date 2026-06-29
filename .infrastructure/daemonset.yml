@@ -23,7 +23,7 @@ spec:
        args:
        - |
           while true; do
-            curl http://todoapp
+            curl http://todoapp-service
             sleep 5
           done
        resources:

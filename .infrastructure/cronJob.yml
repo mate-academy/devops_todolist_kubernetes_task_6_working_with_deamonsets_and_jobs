@@ -22,7 +22,7 @@ spec:
             - -c
             - |
               echo "Calling todoapp health"
-              curl -v http://todoapp/api/health
+              curl -v http://todoapp-service/api/health
             resources:
               requests:
                 cpu: "100m"
