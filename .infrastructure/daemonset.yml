@@ -8,15 +8,15 @@ metadata:
 spec:
  selector:
    matchLabels:
-     app: mate-server
+     app: todoapp
  template:
    metadata:
      labels:
-       app: mate-server
+       app: todoapp
    spec:
      containers:
      - name: busybox
-       image: ikulyk404/busyboxplus:curl
+       image: busyboxplus:curl
        command:
        - sh
        - -c
