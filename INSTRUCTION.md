@@ -7,7 +7,7 @@
 
 kubectl apply -f .infrastructure/namespace.yml
 kubectl apply -f .infrastructure/deployment.yml
-kubectl apply -f .infrastructure/clusterip.yml
+kubectl apply -f .infrastructure/clusterIp.yml
 kubectl apply -f .infrastructure/nodeport.yml
 kubectl apply -f .infrastructure/hpa.yml
 
@@ -18,7 +18,8 @@ kubectl apply -f cronjob.yml
 
 3. Інструкція щодо перевірки рішення
 
-DaemonSet автоматично створює под на кожній доступній ноді й надсилає циклічні запити до служби todoapp-service кожні 5 секунд.
+4. DaemonSet автоматично створює под на кожній доступній ноді й надсилає циклічні запити до служби todoapp-service кожні 5 секунд.
+
 Перевірка статусу подів та перегляд журналів (логів) DaemonSet:
 kubectl get pods -n mateapp -l app=todoapp-daemonset
 kubectl logs -n mateapp -l app=todoapp-daemonset --tail=20
@@ -28,4 +29,4 @@ kubectl get cronjobs -n mateapp
 kubectl get jobs -n mateapp
 
 Перегляд журналів (логів) для успішно виконаного тестового завдання:
-kubectl logs -n mateapp job/manual-test-2
+kubectl logs -n mateapp job/todoapp-cronjob-29726836
