@@ -1,38 +1,46 @@
+# Kubernetes Deployment Instructions
+
 ## Deployment
 
-To deploy app you need to go to .infrastructure folder and enter following commands:
+Run the following commands from the repository root:
 
 ```bash
-kubectl apply -f daemonset.yml
-```
-```bash
-kubectl apply -f cronjob.yml
+kubectl apply -f .infrastructure/daemonset.yml
+kubectl apply -f .infrastructure/cronjob.yml
 ```
 
 ## Validation
 
-To validate you need:
+### Check the DaemonSet
 
-1. Get all **jobs** in **namespace**:
+```bash
+kubectl get daemonset todoapp-daemonset -n mateapp
+kubectl get pods -n mateapp
+```
 
-    ```sh
-    kubectl get jobs -n mateapp
-    ```
+Check logs of one DaemonSet pod:
 
-2. Check logs for the last **job**:
+```bash
+kubectl logs <daemonset-pod-name> -n mateapp
+```
 
-    ```sh
-    kubectl logs job/health-check-cronjob-<your_job_hash> -n mateapp
-    ```
+The logs should show requests sent to the `todoapp-service` ClusterIP Service every 5 seconds.
 
-3. Get all **pods** to find your daemonset pod:
+### Check the CronJob
 
-    ```sh
-    kubectl get pods -n mateapp
-    ```
+```bash
+kubectl get cronjob health-check-cronjob -n mateapp
+kubectl get jobs -n mateapp
+```
 
-4. Check logs for your **daemonset** pod:
+Check logs of a completed CronJob Job:
 
-    ```sh
-    kubectl logs <your_daemonset_pod_name> -n mateapp
-    ```
+```bash
+kubectl logs job/<job-name> -n mateapp
+```
+
+The CronJob runs every 4 minutes and sends a request to:
+
+```text
+http://todoapp-service:80/api/health
+```
