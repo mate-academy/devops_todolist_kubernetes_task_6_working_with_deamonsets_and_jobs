@@ -4,7 +4,7 @@ metadata:
   name: todoapp
   namespace: mateapp
 spec:
-  schedule: "*/4 * * *"
+  schedule: "*/4 * * * *"
   concurrencyPolicy: Allow
   successfulJobHistoryLimit: 10
   failedJobHistoryLimit: 5
@@ -19,7 +19,7 @@ spec:
               command:
                 - curl
                 - -f
-                - http://todoapp/api/health
+                - http://todoapp-service/api/health
               resources:
                 requests:
                   cpu: "10m"
