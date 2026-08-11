@@ -15,12 +15,12 @@ kubectl get daemonset -n mateapp
 
 Check its pods:
 ```bash
-kubectl get pods -n mateapp -l app=todoapp-daemonset
+kubectl get pods -n mateapp -l app=todoapp
 ```
 
 Check DaemonSet logs:
 ```bash
-kubectl logs -n mateapp -l app=todoapp-daemonset
+kubectl logs -n mateapp -l app=todoapp
 ```
 
 ## Deploy CronJob
@@ -60,12 +60,12 @@ kubectl get daemonset -n mateapp
 
 Verify that DaemonSet pods are running:
 ```bash
-kubectl get pods -n mateapp -l app=todoapp-daemonset
+kubectl get pods -n mateapp -l app=todoapp
 ```
 
 Verify DaemonSet logs:
 ```bash
-kubectl logs -n mateapp -l app=todoapp-daemonset
+kubectl logs -n mateapp -l app=todoapp
 ```
 
 Verify the CronJob configuration:
