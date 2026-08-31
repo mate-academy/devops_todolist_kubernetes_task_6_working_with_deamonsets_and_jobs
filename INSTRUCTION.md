@@ -158,3 +158,4 @@ Remove the CronJob:
 ```
 kubectl delete -f .infrastructure/cronjob.yml
 ```
+
