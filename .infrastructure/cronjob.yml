@@ -15,7 +15,7 @@ spec:
           restartPolicy: Never
           containers:
             - name: health-check
-              image: ikulyk404/busyboxplus:curl
+              image: busyboxplus:curl
               command:
                 - /bin/sh
                 - -c
