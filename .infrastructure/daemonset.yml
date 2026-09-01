@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: todoapp-healthcheck
+  namespace: mateapp
+spec:
+  selector:
+    matchLabels:
+      app: todoapp-healthcheck
+  template:
+    metadata:
+      labels:
+        app: todoapp-healthcheck
+    spec:
+      containers:
+      - name: healthcheck
+        image: busyboxplus:curl
+        command:
+          - sh
+          - -c
+          - |
+            while true; do
+              curl -s http://todoapp.mateapp.svc.cluster.local
+              echo ""
+              sleep 5
+            done
+        resources:
+          requests:
+            memory: "64Mi"
+            cpu: "50m"
+          limits:
+            memory: "128Mi"
+            cpu: "100m"
