@@ -32,7 +32,7 @@ kubectl get pods -n mateapp
 
 ### Step 2.2: Check DaemonSet Logs
 
-The DaemonSet executes a health check via `curl` every 5 seconds. To view these logs, use the name of your DaemonSet (e.g., `todo`):
+The DaemonSet executes a curl command to the clusterIP service of the todoapp every 5 seconds. To view these logs and confirm the connection, use the name of your DaemonSet (e.g., `todo`):
 
 ```bash
 kubectl logs daemonset/todo -n mateapp
@@ -40,7 +40,7 @@ kubectl logs daemonset/todo -n mateapp
 
 ### Step 2.3: Check CronJob Logs
 
-The CronJob runs every 4 minutes. First, verify that a Job has been triggered:
+The CronJob runs every 4 minutes and specifically calls the `/api/health` endpoint of the todoapp. First, verify that a Job has been triggered:
 
 ```bash
 kubectl get jobs -n mateapp

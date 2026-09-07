@@ -15,7 +15,7 @@ spec:
           containers:
             - name: busyboxplus
               image: busyboxplus:curl
-              command: ["curl", "todoapp-service:8000/api/health"]
+              command: ["curl", "todoapp-service:8080/api/health"]
               resources:
                 requests:
                   memory: "100Mi"
