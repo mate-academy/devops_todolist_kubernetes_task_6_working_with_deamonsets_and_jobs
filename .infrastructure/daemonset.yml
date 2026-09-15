@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: todoapp-server
-          image: curlimages/curl:latest # busyboxplus:curl - not working
+          image: busyboxplus:curl
           command:
             - /bin/sh
             - -c

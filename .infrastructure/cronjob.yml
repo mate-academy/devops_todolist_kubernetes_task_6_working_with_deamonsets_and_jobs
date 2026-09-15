@@ -15,9 +15,16 @@ spec:
         spec:
           containers:
             - name: check-health
-              image: curlimages/curl:latest # busyboxplus:curl - not working
+              image: busyboxplus:curl
               command:
                 - /bin/sh
                 - -c
                 - curl http://todoapp-service/api/health
+              resources:
+                requests:
+                  cpu: "50m"
+                  memory: "32Mi"
+                limits:
+                  cpu: "100m"
+                  memory: "64Mi"
           restartPolicy: OnFailure
