@@ -1,0 +1,29 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: crobjobname
+  namespace: mateapp
+spec:
+  schedule: "*/4 * * * *"
+  concurrencyPolicy: Allow
+  successfulJobsHistoryLimit: 10
+  failedJobsHistoryLimit: 5
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+            - name: hello
+              image: busyboxplus:curl
+              command: ["sh", "-c"]
+              args:
+                - |
+                  curl -s http://todoapp-service.mateapp.svc.cluster.local/api/health;
+              resources:
+                requests:
+                  memory: "64Mi"
+                  cpu: "100m"
+                limits:
+                  memory: "64Mi"
+                  cpu: "100m"
+          restartPolicy: OnFailure
