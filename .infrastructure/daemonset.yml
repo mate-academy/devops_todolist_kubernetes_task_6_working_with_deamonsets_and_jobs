@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: DaemonSet
 metadata:
   name: todoapp-curl
-  namespace: todoapp
+  namespace: mateapp
 spec:
   selector:
     matchLabels:
@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: todoapp-curl
-          image: curlimages/curl:8.22.0
+          image: busyboxplus:curl
           resources:
             requests:
               cpu: "0.1"
