@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: busybox-daemonset
+  namespace: mateapp
+  labels:
+    app: busybox-daemonset
+spec:
+  selector:
+    matchLabels:
+      app: busybox-daemonset
+  template:
+    metadata:
+      labels:
+        app: busybox-daemonset
+    spec:
+      containers:
+        - name: busybox-daemonset
+          image: busyboxplus:curl
+          command: ["sh", "-c", "while True; do curl http://todoapp-service.mateapp.svc.cluster.local; sleep 5; done"]
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "100Mi"
+            limits:
+              cpu: "100m"
+              memory: "100Mi"
