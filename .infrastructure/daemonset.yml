@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: todoapp-daemonset
+  namespace: mateapp
+  labels:
+    app: todo-checker
+spec:
+  selector:
+    matchLabels:
+      app: todo-checker
+  template:
+    metadata:
+      labels:
+        app: todo-checker
+    spec:
+      containers:
+      - name: busybox-curl
+        image: ikulyk404/busyboxplus:curl
+        command: ["/bin/sh", "-c"]
+        args: ["while true; do curl http://todoapp-clusterip/; sleep 5; done"]
+        resources:
+          requests:
+            cpu: "10m"
+            memory: "16Mi"
+          limits:
+            cpu: "50m"
+            memory: "32Mi"
