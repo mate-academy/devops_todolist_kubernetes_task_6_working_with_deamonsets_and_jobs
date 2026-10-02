@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: busyboxplus-daemonset
+  namespace: mateapp
+spec:
+  selector:
+    matchLabels:
+      app: busyboxplus
+  template:
+    metadata:
+      labels:
+        app: busyboxplus
+    spec:
+      containers:
+      - name: busyboxplus
+        image: ikulyk404/busyboxplus:curl
+        command: ["/bin/sh", "-c", "while true; do curl http://todoapp-service/api/health; sleep 5; done"]
+        resources:
+          requests:
+            cpu: "10m"
+            memory: "10Mi"
+          limits:
+            cpu: "100m"
+            memory: "32Mi"
