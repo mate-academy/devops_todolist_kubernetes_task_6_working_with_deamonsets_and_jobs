@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: todoapp-ping-daemonset
+  namespace: mateapp
+  labels:
+    app: todoapp-pinger
+spec:
+  selector:
+    matchLabels:
+      name: todoapp-pinger
+  template:
+    metadata:
+      labels:
+        name: todoapp-pinger
+    spec:
+      containers:
+      - name: busybox-pinger
+        image: busyboxplus:curl
+        command: ["sh", "-c", "while true; do curl -s http://todoapp-clusterip.mateapp.svc.cluster.local:80/; sleep 5; done"]
+        resources:
+          requests:
+            cpu: "10m"
+            memory: "16Mi"
+          limits:
+            cpu: "50m"
+            memory: "32Mi"
