@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: curl
-          image: radial/busyboxplus:curl
+          image: busyboxplus:curl
           command:
             - /bin/sh
             - -c
