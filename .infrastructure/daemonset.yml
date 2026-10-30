@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: todoapp
+  namespace: mateapp
+  labels:
+    app: todoapp
+spec:
+  selector:
+    matchLabels:
+      app: mate-server
+  template:
+    metadata:
+      labels:
+        app: mate-server
+    spec:
+      containers:
+      - name: mate-server
+        image: busyboxplus:curl
+        resources:
+          requests:
+            cpu: "100m"
+            memory: "100Mi"
+          limits:
+            cpu: "200m"
+            memory: "200Mi"
+        command:
+        - /bin/sh
+        - -c
+        - while true; do curl http://todoapp-service/api/health; sleep 5; done
