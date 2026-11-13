@@ -40,8 +40,8 @@ kubectl get jobs -n mateapp
 
 # Logs of the latest run: the /api/health response
 kubectl logs -n mateapp job/$(kubectl get jobs -n mateapp \
-  --sort-by=.metadata.creationTimestamp \
-  -o jsonpath='{.items[-1].metadata.name}')
+--sort-by=.metadata.creationTimestamp \
+-o jsonpath='{.items[-1].metadata.name}')
 
 # Optional: trigger a run immediately instead of waiting 4 minutes
 kubectl create job --from=cronjob/todoapp-cronjob manual-test -n mateapp
