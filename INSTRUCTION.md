@@ -12,8 +12,8 @@ kubectl create namespace mateapp
 kubectl get svc todoapp-service -n mateapp
 
 # 3. Apply the manifests
-kubectl apply -f daemonset.yml
-kubectl apply -f cronjob.yml
+kubectl apply -f .infrastructure/daemonset.yml
+kubectl apply -f .infrastructure/cronjob.yml
 ```
 
 ## Validate
@@ -51,5 +51,5 @@ kubectl logs -n mateapp job/manual-test
 ## Clean up
 
 ```bash
-kubectl delete -f daemonset.yml -f cronjob.yml
+kubectl delete -f .infrastructure/daemonset.yml -f .infrastructure/cronjob.yml
 ```
