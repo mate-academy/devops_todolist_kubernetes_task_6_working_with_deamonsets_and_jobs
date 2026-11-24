@@ -25,7 +25,7 @@ command: " kubectl get pods -n mateapp"
 
 Check the daemonset logs. A `200` line should appear every 5 seconds:
 
-command: kubectl logs <curl-daemonset-pod> -n mateapp"
+command: "kubectl logs <curl-daemonset-pod> -n mateapp"
 
 Wait 4 minutes for the cronjob to run, then check its logs. The response of `/api/health` should be there:
 
