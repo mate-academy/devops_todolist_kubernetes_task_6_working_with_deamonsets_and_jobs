@@ -21,8 +21,8 @@ spec:
         args: 
         - | 
           while true; do
-          curl http://todoapp.mateapp.svc.cluster.local
-          sleep 5
+            curl http://todoapp.mateapp.svc.cluster.local
+            sleep 5
           done
         resources:
           requests:
