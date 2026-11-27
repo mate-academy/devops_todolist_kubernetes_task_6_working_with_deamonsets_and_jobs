@@ -1,0 +1,21 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: cronjob
+  namespace: mateapp
+spec:
+  schedule: "*/4 * * * *"
+  concurrencyPolicy: Allow
+  successfulJobsHistoryLimit: 10
+  failedJobsHistoryLimit: 5
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: busyboxplus
+            image: busyboxplus:curl
+            command: ["/bin/sh", "-c"]
+            args:
+            - |
+              curl -f http://todoapp.mateapp.svc.cluster.local/api/health
